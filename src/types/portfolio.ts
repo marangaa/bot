@@ -1,4 +1,12 @@
-export interface Project {
+import { MessageType } from "./chat";
+
+export interface TechnicalDetails {
+    architecture: string;
+    challenges: string[];
+    solutions: string[];
+  }
+  
+  export interface Project {
     id: string;
     title: string;
     description: string;
@@ -11,27 +19,44 @@ export interface Project {
     featured: boolean;
     createdAt: Date;
     updatedAt: Date;
-}
+    technicalDetails?: TechnicalDetails;
+    relatedProjects?: string[];
+  }
+  
+  export interface StructuredResponse {
+    responseType: MessageType;
+    content: string;
+    data?: {
+      projectIds?: string[];
+      skillIds?: string[];
+      experienceIds?: string[];
+      highlightedTechnologies?: string[];
+    };
+    metadata?: {
+      confidence: number;
+      suggestedQuestions: string[];
+    };
+  }
 
-export interface Skill {
-    id: string;
-    name: string;
-    category: string;
-    proficiency: number;
-    description: string;
-    yearsOfExperience: number;
-    relatedProjects: string[]; // Project IDs
-}
-
-export interface Experience {
+  export interface Experience {
     id: string;
     title: string;
     company: string;
     location: string;
-    startDate: Date;
-    endDate?: Date;
+    startDate: string | Date; // Allow both string and Date
+    endDate?: string | Date;  // Allow both string and Date
     description: string;
     achievements: string[];
     technologies: string[];
-    type: 'work' | 'education' | 'certification';
-}
+    type: 'work' | 'education' | 'volunteer';
+  }
+
+  export interface Skill {
+    id: string;
+    name: string;
+    category: 'AI/ML' | 'Web Development' | 'Data Science' | 'Cloud & Infrastructure' | 'Software Engineering';
+    proficiency: number;
+    description: string;
+    yearsOfExperience: number;
+    relatedProjects: string[];
+  }

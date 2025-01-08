@@ -2,12 +2,7 @@ import React from 'react';
 import { Command } from 'cmdk';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    Calculator,
-    Calendar,
-    CreditCard,
     Settings,
-    Smile,
-    User,
     Code,
     Brain,
     Briefcase,

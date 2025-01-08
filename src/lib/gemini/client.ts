@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { buildSystemContext, RESPONSE_PROMPTS } from './portfolio-context';
-import type { ChatMessage, MessageType, StructuredResponse } from '@/types/chat';
+import type { ChatMessage, MessageType } from '@/types/chat';
 import { experiences, projects, skills } from '../portfolio/data';
 import { analyzeIntent } from '../utils/intent-analyzer';
 import type { Project, Skill, Experience } from '@/types/portfolio';

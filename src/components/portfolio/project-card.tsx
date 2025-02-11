@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { projects } from '@/lib/portfolio/data';
 import { Project } from '@/types/portfolio';
+import Image from 'next/image';
 
 // We'll make the interface more flexible to handle both direct data and project ID
 interface ProjectCardProps {
@@ -77,7 +78,7 @@ export const ProjectCard = ({
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.2 }}
                 >
-                    <img
+                    <Image
                         src={image}
                         alt={`${title} project preview`}
                         className="w-full h-full object-cover"

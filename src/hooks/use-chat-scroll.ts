@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
+import { ChatMessage } from '@/types/chat';
 
 interface ChatScrollProps {
-    messages: any[];
+    messages: ChatMessage[];
     shouldAutoScroll?: boolean;
 }
 

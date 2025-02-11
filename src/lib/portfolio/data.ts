@@ -24,6 +24,27 @@ export const projects: Project[] = [
         liveUrl: 'https://your-portfolio.com',
         createdAt: new Date('2024-01-01'),
         updatedAt: new Date('2024-01-01'),
+        technicalDetails: {
+            architecture: `
+                Built with Next.js 14, TypeScript, and Gemini AI, this portfolio assistant implements 
+                a sophisticated architecture combining server-side streaming, client-side state management, 
+                and AI model integration. The system uses a custom prompt engineering pipeline to maintain 
+                context and generate coherent responses while optimizing for both performance and user experience.
+            `,
+            challenges: [
+                'Implementing real-time streaming responses with minimal latency',
+                'Managing complex state between AI interactions',
+                'Optimizing prompt engineering for contextual responses',
+                'Handling rate limiting and API quotas efficiently'
+            ],
+            solutions: [
+                'Developed custom streaming implementation using Server-Sent Events',
+                'Implemented context-aware state management using React Context',
+                'Created dynamic prompt template system with fallback strategies',
+                'Built intelligent caching layer for frequent queries'
+            ]
+        },
+        relatedProjects: ['2']
     },
     {
         id: '2',
@@ -46,6 +67,27 @@ export const projects: Project[] = [
         githubUrl: 'https://github.com/yourusername/llm-pipeline',
         createdAt: new Date('2023-12-01'),
         updatedAt: new Date('2023-12-01'),
+        technicalDetails: {
+            architecture: `
+                Developed a comprehensive pipeline for training and deploying LLMs at scale. 
+                The system incorporates automated data preprocessing, distributed training infrastructure,
+                and sophisticated model evaluation frameworks. Implements a microservices architecture
+                for model serving with automated scaling capabilities.
+            `,
+            challenges: [
+                'Scaling training across multiple GPU clusters',
+                'Managing large-scale training data pipelines',
+                'Optimizing model deployment for production',
+                'Implementing robust monitoring and evaluation'
+            ],
+            solutions: [
+                'Built distributed training system using Ray',
+                'Developed automated data validation and cleaning pipeline',
+                'Created containerized deployment system with Kubernetes',
+                'Implemented comprehensive metrics collection and alerting'
+            ]
+        },
+        relatedProjects: ['1']
     }
 ];
 

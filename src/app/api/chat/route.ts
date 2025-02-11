@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { analyzeIntent } from '@/lib/utils/intent-analyzer';
-import type { ApiResponse, MessageType } from '@/types/chat';
+import type { ApiResponse, ChatMessage, MessageType } from '@/types/chat';
 import { GeminiClient } from '@/lib/gemini/client';
 
 const geminiClient = new GeminiClient(process.env.GEMINI_API_KEY!);
@@ -32,36 +32,71 @@ export async function POST(request: Request) {
 
     // Analyze user intent
     const intent = await analyzeIntent(message);
-    let response;
 
     try {
+      let chatMessage: ChatMessage;
+
       switch (mapIntentToMessageType(intent.type)) {
         case 'project':
           if (intent.entityId) {
-            response = await geminiClient.getProjectDetails(intent.entityId);
+            const details = await geminiClient.getProjectDetails(intent.entityId);
+            chatMessage = {
+              id: crypto.randomUUID(),
+              role: 'assistant',
+              content: details.content,
+              timestamp: new Date(),
+              type: details.responseType,
+              metadata: {
+                ...details.metadata,
+                ...details.data
+              }
+            };
           } else {
-            response = await geminiClient.sendMessage(message);
+            chatMessage = await geminiClient.sendMessage(message);
           }
           break;
         case 'skill':
           if (intent.entityId) {
-            response = await geminiClient.getSkillDetails(intent.entityId);
+            const details = await geminiClient.getSkillDetails(intent.entityId);
+            chatMessage = {
+              id: crypto.randomUUID(),
+              role: 'assistant',
+              content: details.content,
+              timestamp: new Date(),
+              type: details.responseType,
+              metadata: {
+                ...details.metadata,
+                ...details.data
+              }
+            };
           } else {
-            response = await geminiClient.sendMessage(message);
+            chatMessage = await geminiClient.sendMessage(message);
           }
           break;
         case 'experience':
           if (intent.entityId) {
-            response = await geminiClient.getExperienceDetails(intent.entityId);
+            const details = await geminiClient.getExperienceDetails(intent.entityId);
+            chatMessage = {
+              id: crypto.randomUUID(),
+              role: 'assistant',
+              content: details.content,
+              timestamp: new Date(),
+              type: details.responseType,
+              metadata: {
+                ...details.metadata,
+                ...details.data
+              }
+            };
           } else {
-            response = await geminiClient.sendMessage(message);
+            chatMessage = await geminiClient.sendMessage(message);
           }
           break;
         default:
-          response = await geminiClient.sendMessage(message);
+          chatMessage = await geminiClient.sendMessage(message);
       }
 
-      return NextResponse.json<ApiResponse>({ message: response });
+      return NextResponse.json<ApiResponse>({ message: chatMessage });
+
     } catch (error) {
       console.error('Gemini API Error:', error);
       return NextResponse.json<ApiResponse>(

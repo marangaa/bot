@@ -1,6 +1,6 @@
 'use client'
 import React, { createContext, useContext, useReducer, useCallback } from 'react';
-import { ChatMessage, ChatContextType } from '@/types/chat';
+import { ChatMessage, ChatContextType, ChatMetadata, StreamChunk, MessageType } from '@/types/chat';
 import { chatReducer, initialState } from '@/lib/chat/reducer';
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -39,7 +39,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         if (!reader) throw new Error('No reader available');
 
         let accumulatedContent = '';
-        let metadata: any = null;
+        let metadata: ChatMetadata | null = null;
 
         while (true) {
           const { done, value } = await reader.read();
@@ -52,8 +52,10 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
             try {
               const metadataStart = chunk.indexOf('{"type":"metadata"');
               const metadataJson = chunk.slice(metadataStart);
-              const parsedMetadata = JSON.parse(metadataJson);
-              metadata = parsedMetadata.data;
+              const parsedChunk = JSON.parse(metadataJson) as StreamChunk;
+              if (parsedChunk.data) {
+                metadata = parsedChunk.data;
+              }
               continue;
             } catch (e) {
               console.error('Error parsing metadata:', e);
@@ -71,8 +73,15 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
           content: accumulatedContent,
           role: 'assistant',
           timestamp: new Date(),
-          type: metadata?.type,
-          metadata: metadata?.metadata,
+          type: metadata?.type as MessageType | undefined,
+          metadata: metadata ? {
+            confidence: metadata.confidence,
+            suggestedQuestions: metadata.suggestedQuestions,
+            projectIds: metadata.data?.projectIds,
+            skillIds: metadata.data?.skillIds,
+            experienceIds: metadata.data?.experienceIds,
+            highlightedTechnologies: metadata.data?.highlightedTechnologies,
+          } : undefined
         };
         dispatch({ type: 'ADD_MESSAGE', payload: assistantMessage });
       } else {

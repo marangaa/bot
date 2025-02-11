@@ -7,14 +7,15 @@ interface UseIntersectionObserverProps {
 }
 
 export function useIntersectionObserver({
-                                            threshold = 0,
-                                            root = null,
-                                            rootMargin = '0px',
-                                        }: UseIntersectionObserverProps = {}) {
+    threshold = 0,
+    root = null,
+    rootMargin = '0px',
+}: UseIntersectionObserverProps = {}) {
     const [entry, setEntry] = useState<IntersectionObserverEntry>();
     const [node, setNode] = useState<Element | null>(null);
 
-    const observer = useRef<IntersectionObserver>();
+    // Fix: Initialize useRef with null
+    const observer = useRef<IntersectionObserver | null>(null);
 
     useEffect(() => {
         if (observer.current) {
@@ -32,11 +33,15 @@ export function useIntersectionObserver({
 
         const { current: currentObserver } = observer;
 
-        if (node) {
+        if (node && currentObserver) {
             currentObserver.observe(node);
         }
 
-        return () => currentObserver.disconnect();
+        return () => {
+            if (currentObserver) {
+                currentObserver.disconnect();
+            }
+        };
     }, [node, threshold, root, rootMargin]);
 
     return [setNode, entry] as const;

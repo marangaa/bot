@@ -1,4 +1,4 @@
-import { Experience, Skill } from "./portfolio";
+import { Experience, Project, Skill } from "./portfolio";
 
 export type MessageType = 
   | 'text' 
@@ -11,13 +11,36 @@ export type MessageType =
   | 'skill_inquiry'
   | 'experience_details';
 
-interface Project {
-  title: string;
-  description: string;
-  technologies: string[];
-  githubUrl?: string;
-  liveUrl?: string;
-  image?: string;
+// Remove duplicate Project interface since we're importing it from portfolio
+
+export interface ChatMetadata {
+  type?: string;
+  confidence?: number;
+  suggestedQuestions?: string[];
+  data?: {
+    projectIds?: string[];
+    skillIds?: string[];
+    experienceIds?: string[];
+    highlightedTechnologies?: string[];
+  };
+}
+
+export interface StreamChunk {
+  type: 'text' | 'metadata';
+  content?: string;
+  data?: ChatMetadata;
+}
+
+interface ChatMessageMetadata {
+  projectIds?: string[];
+  skillIds?: string[];
+  experienceIds?: string[];
+  highlightedTechnologies?: string[];
+  confidence?: number;
+  suggestedQuestions?: string[];
+  projects?: Record<string, Project>;
+  experiences?: Record<string, Experience>;
+  skills?: Record<string, Skill>;
 }
 
 export interface ChatMessage {
@@ -26,18 +49,7 @@ export interface ChatMessage {
   role: 'user' | 'assistant';
   timestamp: Date;
   type?: MessageType;
-  metadata?: {
-    projectIds?: string[];
-    skillIds?: string[];
-    experienceIds?: string[];
-    highlightedTechnologies?: string[];
-    confidence?: number;
-    suggestedQuestions?: string[];
-    projects?: Record<string, Project>;
-    experiences?: Record<string, Experience>;
-    skills?: Record<string, Skill>;
-    [key: string]: any;
-  };
+  metadata?: ChatMessageMetadata;
 }
 
 export interface ChatState {

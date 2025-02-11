@@ -9,13 +9,19 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { projects } from '@/lib/portfolio/data';
+import { TechnicalDetails as TechnicalDetailsType } from '@/types/portfolio';
+
+interface ProjectTechnicalDetails {
+  technicalDetails: TechnicalDetailsType;
+  relatedProjects: string[];
+}
 
 interface TechnicalDetailsProps {
   projectId: string;
 }
 
 export function TechnicalDetails({ projectId }: TechnicalDetailsProps) {
-  const [details, setDetails] = React.useState<any>(null);
+  const [details, setDetails] = React.useState<ProjectTechnicalDetails | null>(null);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {

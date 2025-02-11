@@ -1,13 +1,13 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenerativeAI, GenerativeModel } from '@google/generative-ai';
 import { buildSystemContext, RESPONSE_PROMPTS } from './portfolio-context';
 import type { ChatMessage, MessageType } from '@/types/chat';
 import { experiences, projects, skills } from '../portfolio/data';
 import { analyzeIntent } from '../utils/intent-analyzer';
-import type { Project, Skill, Experience } from '@/types/portfolio';
+import type { Project, Skill, Experience, StructuredResponse } from '@/types/portfolio';
 
 export class GeminiClient {
-  private model: any;
-  private genAI: any;
+  private model: GenerativeModel;
+  private genAI: GoogleGenerativeAI;
   private systemContext: string;
 
   constructor(apiKey: string) {
@@ -18,7 +18,6 @@ export class GeminiClient {
     this.model = this.genAI.getGenerativeModel({
       model: "gemini-1.5-pro",
       generationConfig: {
-        maxOutputTokens: 2000,
         temperature: 0.5,
         topK: 40,
         topP: 0.95,
@@ -153,15 +152,21 @@ export class GeminiClient {
     }
   }
 
-  async getProjectDetails(projectId: string): Promise<any> {
+  async getProjectDetails(projectId: string): Promise<StructuredResponse> {
     try {
       const chat = await this.initializeChat();
       const result = await chat.sendMessage(RESPONSE_PROMPTS.PROJECT(projectId));
       const response = await result.response;
       return {
-        type: 'project',
+        responseType: 'project_details',
         content: response.text(),
-        projectId
+        data: {
+          projectIds: [projectId]
+        },
+        metadata: {
+          confidence: 1,
+          suggestedQuestions: generateSuggestedQuestions(response.text(), 'project')
+        }
       };
     } catch (error) {
       console.error('Error getting project details:', error);
@@ -169,15 +174,21 @@ export class GeminiClient {
     }
   }
 
-  async getSkillDetails(skillId: string): Promise<any> {
+  async getSkillDetails(skillId: string): Promise<StructuredResponse> {
     try {
       const chat = await this.initializeChat();
       const result = await chat.sendMessage(RESPONSE_PROMPTS.SKILL(skillId));
       const response = await result.response;
       return {
-        type: 'skill',
+        responseType: 'skill_inquiry',
         content: response.text(),
-        skillId
+        data: {
+          skillIds: [skillId]
+        },
+        metadata: {
+          confidence: 1,
+          suggestedQuestions: generateSuggestedQuestions(response.text(), 'skill')
+        }
       };
     } catch (error) {
       console.error('Error getting skill details:', error);
@@ -185,15 +196,21 @@ export class GeminiClient {
     }
   }
 
-  async getExperienceDetails(experienceId: string): Promise<any> {
+  async getExperienceDetails(experienceId: string): Promise<StructuredResponse> {
     try {
       const chat = await this.initializeChat();
       const result = await chat.sendMessage(RESPONSE_PROMPTS.EXPERIENCE(experienceId));
       const response = await result.response;
       return {
-        type: 'experience',
+        responseType: 'experience_details',
         content: response.text(),
-        experienceId
+        data: {
+          experienceIds: [experienceId]
+        },
+        metadata: {
+          confidence: 1,
+          suggestedQuestions: generateSuggestedQuestions(response.text(), 'experience')
+        }
       };
     } catch (error) {
       console.error('Error getting experience details:', error);
@@ -226,7 +243,28 @@ function generateSuggestedQuestions(response: string, type: MessageType): string
       "What technologies did you work with?",
       "What was your role in the team?"
     ],
-    // Add other types as needed...
+    project_details: [
+      "Can you elaborate on the technical implementation?",
+      "What were the key outcomes?",
+      "How did you overcome challenges?"
+    ],
+    skill_inquiry: [
+      "Where have you applied this skill?",
+      "What's your proficiency level?",
+      "What related skills do you have?"
+    ],
+    experience_details: [
+      "What were your key responsibilities?",
+      "What impact did you make?",
+      "What skills did you develop?"
+    ],
+    text: [],
+    multi: [],
+    general: [
+      "What are your main areas of expertise?",
+      "Could you tell me about your background?",
+      "What kind of projects interest you?"
+    ]
   };
 
   return [...(contextQuestions[type] || []), ...baseQuestions].slice(0, 3);

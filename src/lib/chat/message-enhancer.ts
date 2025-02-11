@@ -1,14 +1,23 @@
 import { projects, skills, experiences } from '@/lib/portfolio/data';
-import { ChatMessage } from '@/types/chat';
+import { ChatMessage, MessageType } from '@/types/chat';
+
+interface MessageMetadata {
+    projectId?: string;
+    skillId?: string;
+    experienceId?: string;
+    projectIds?: string[];
+    skillIds?: string[];
+    experienceIds?: string[];
+    primaryProject?: string;
+    primarySkill?: string;
+    primaryExperience?: string;
+    confidence?: number;
+    suggestedQuestions?: string[];
+}
 
 interface EnhancedContent {
-    type?: 'text' | 'project' | 'skill' | 'experience' | 'multi';
-    metadata?: {
-        projectId?: string;
-        skillId?: string;
-        experienceId?: string;
-        [key: string]: any;
-    };
+    type?: MessageType;
+    metadata?: MessageMetadata;
 }
 
 export class MessageEnhancer {

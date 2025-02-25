@@ -1,4 +1,5 @@
 import { projects, skills, experiences } from '@/lib/portfolio/data';
+import { getProjectsBySkill } from '@/lib/portfolio/relations';
 
 export const buildSystemContext = () => {
     const formatDate = (date: string | Date) => {
@@ -33,13 +34,16 @@ export const buildSystemContext = () => {
     `).join('\n\n')}
 
     Core Competencies:
-    ${skills.map(skill => `
-      SKILL: ${skill.name}
-      Domain: ${skill.category}
-      Expertise: ${skill.proficiency}% proficiency with ${skill.yearsOfExperience} years
-      Focus Areas: ${skill.description}
-      Applied In: Projects ${skill.relatedProjects.map(id => projects.find(p => p.id === id)?.title).filter(Boolean).join(', ')}
-    `).join('\n\n')}
+    ${skills.map(skill => {
+        const relatedProjects = getProjectsBySkill(skill.id);
+        return `
+          SKILL: ${skill.name}
+          Domain: ${skill.category}
+          Expertise: ${skill.proficiency}% proficiency with ${skill.yearsOfExperience} years
+          Focus Areas: ${skill.description}
+          Applied In: Projects ${relatedProjects.map(p => p?.title).filter(Boolean).join(', ')}
+        `;
+    }).join('\n\n')}
 
     Professional Journey:
     ${experiences.map(exp => `

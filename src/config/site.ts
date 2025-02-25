@@ -5,7 +5,8 @@ export const siteConfig = {
     ogImage: "https://your-og-image.png",
     links: {
         github: "your-github-url",
-        linkedin: "your-linkedin-url",
+        linkedin: "https://www.linkedin.com/in/richard-marangaa/",
     },
-    creator: "Your Name",
+    creator: "maranga",
+    tags: ["AI", "Portfolio", "Engineer"],
 };

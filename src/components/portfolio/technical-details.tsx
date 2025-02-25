@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Code2, GitBranch, Bug, Lightbulb } from 'lucide-react';
+import { Code2, GitBranch, Bug, Lightbulb, Cpu } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -14,6 +14,11 @@ import { TechnicalDetails as TechnicalDetailsType } from '@/types/portfolio';
 interface ProjectTechnicalDetails {
   technicalDetails: TechnicalDetailsType;
   relatedProjects: string[];
+  relatedSkills: {
+    id: string;
+    name: string;
+    proficiency: number;
+  }[];
 }
 
 interface TechnicalDetailsProps {
@@ -43,6 +48,7 @@ export function TechnicalDetails({ projectId }: TechnicalDetailsProps) {
               solutions: [],
             },
             relatedProjects: [],
+            relatedSkills: [],
           });
         }
       } finally {
@@ -141,15 +147,36 @@ export function TechnicalDetails({ projectId }: TechnicalDetailsProps) {
         </Card>
       )}
 
-      {/* Related Projects */}
-      {details.relatedProjects?.length > 0 && (
+      {/* Skills Section */}
+      {details?.relatedSkills?.length > 0 && (
+        <div className="mt-4">
+          <h4 className="text-sm font-medium mb-2 flex items-center">
+            <Cpu className="h-4 w-4 mr-2" />
+            Related Skills
+          </h4>
+          <div className="flex flex-wrap gap-2">
+            {details.relatedSkills.map((skill) => (
+              <Badge
+                key={skill.id}
+                variant="outline"
+                className="bg-primary/5 hover:bg-primary/10"
+              >
+                {skill.name} ({skill.proficiency}%)
+              </Badge>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Related Projects Section */}
+      {details?.relatedProjects?.length > 0 && (
         <div className="mt-4">
           <h4 className="text-sm font-medium mb-2 flex items-center">
             <GitBranch className="h-4 w-4 mr-2" />
             Related Projects
           </h4>
           <div className="flex flex-wrap gap-2">
-            {details.relatedProjects.map((relatedId: string) => {
+            {details.relatedProjects.map((relatedId) => {
               const relatedProject = projects.find(p => p.id === relatedId);
               if (!relatedProject) return null;
               return (

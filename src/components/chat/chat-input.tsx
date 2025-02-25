@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Send, Loader2, Command } from 'lucide-react';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -10,10 +10,11 @@ interface ChatInputProps {
     className?: string;
     onSubmit?: (value: string) => void;
     disabled?: boolean;
+    value?: string;
+    onChange?: (value: string) => void;
 }
 
-export function ChatInput({ className, onSubmit, disabled }: ChatInputProps) {
-    const [input, setInput] = useState('');
+export function ChatInput({ className, onSubmit, disabled, value, onChange }: ChatInputProps) {
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const { state } = useChat();
     const isLoading = state.isLoading;
@@ -32,11 +33,11 @@ export function ChatInput({ className, onSubmit, disabled }: ChatInputProps) {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!input.trim() || disabled) return;
+        if (!value?.trim() || disabled) return;
 
         try {
-            await onSubmit?.(input);
-            setInput('');
+            await onSubmit?.(value);
+            onChange?.('');
         } catch (error) {
             console.error('Error sending message:', error);
             // You could add toast notification here
@@ -71,8 +72,8 @@ export function ChatInput({ className, onSubmit, disabled }: ChatInputProps) {
                         ref={inputRef}
                         tabIndex={0}
                         rows={1}
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
+                        value={value || ''}
+                        onChange={(e) => onChange?.(e.target.value)}
                         placeholder="Message the AI portfolio assistant... (Press ⌘K to focus)"
                         spellCheck={false}
                         className={cn(
@@ -90,7 +91,7 @@ export function ChatInput({ className, onSubmit, disabled }: ChatInputProps) {
                         disabled={disabled}
                     />
                     <div className="absolute right-4 flex items-center space-x-2">
-                        {!isLoading && input.length > 0 && (
+                        {!isLoading && (value?.length ?? 0) > 0 && (
                             <span className="text-xs text-muted-foreground">Press ⏎ to send</span>
                         )}
                     </div>
@@ -99,7 +100,7 @@ export function ChatInput({ className, onSubmit, disabled }: ChatInputProps) {
                 <Button
                     type="submit"
                     size="icon"
-                    disabled={isLoading || input.trim().length === 0 || disabled}
+                    disabled={isLoading || !value?.trim().length || disabled}
                     className={cn(
                         'shrink-0',
                         (isLoading || disabled) && 'cursor-not-allowed opacity-60'

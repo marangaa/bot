@@ -13,6 +13,7 @@ import { useChatScroll } from '@/hooks/use-chat-scroll';
 export function ChatInterface() {
     const { state, sendMessage } = useChat();
     const [commandOpen, setCommandOpen] = useState(false);
+    const [inputValue, setInputValue] = useState('');
     const scrollRef = useChatScroll({
         messages: state.messages,
     });
@@ -32,6 +33,10 @@ export function ChatInterface() {
 
     const handleSendMessage = async (content: string) => {
         await sendMessage(content);
+    };
+
+    const handleSuggestedQuestionClick = (question: string) => {
+        setInputValue(question);
     };
 
     return (
@@ -72,6 +77,7 @@ export function ChatInterface() {
                                 key={message.id}
                                 message={message}
                                 isLast={index === state.messages.length - 1}
+                                onSuggestedQuestionClick={handleSuggestedQuestionClick}
                             />
                         ))}
 
@@ -98,6 +104,8 @@ export function ChatInterface() {
                         onSubmit={handleSendMessage}
                         className="max-w-3xl mx-auto"
                         disabled={state.isLoading}
+                        value={inputValue}
+                        onChange={setInputValue}
                     />
                 </div>
             </div>

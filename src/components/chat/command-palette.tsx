@@ -89,14 +89,14 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
                                             View Resume
                                         </Command.Item>
                                         <Command.Item
-                                            onSelect={() => window.open('https://github.com/yourusername', '_blank')}
+                                            onSelect={() => window.open('https://github.com/marangaa', '_blank')}
                                             className="flex items-center gap-2 px-2 py-1 text-sm rounded-lg hover:bg-accent"
                                         >
                                             <Github className="h-4 w-4" />
                                             GitHub Profile
                                         </Command.Item>
                                         <Command.Item
-                                            onSelect={() => window.open('https://linkedin.com/in/yourusername', '_blank')}
+                                            onSelect={() => window.open('https://www.linkedin.com/in/richard-marangaa/', '_blank')}
                                             className="flex items-center gap-2 px-2 py-1 text-sm rounded-lg hover:bg-accent"
                                         >
                                             <Linkedin className="h-4 w-4" />

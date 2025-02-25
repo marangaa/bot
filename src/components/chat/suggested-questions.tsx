@@ -11,6 +11,15 @@ interface SuggestedQuestionsProps {
 export function SuggestedQuestions({ questions, onQuestionClick }: SuggestedQuestionsProps) {
   if (!questions?.length) return null;
 
+  const handleClick = (question: string) => {
+    onQuestionClick?.(question);
+    // Find and focus the chat input
+    const chatInput = document.querySelector('textarea');
+    if (chatInput) {
+      chatInput.focus();
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -32,7 +41,7 @@ export function SuggestedQuestions({ questions, onQuestionClick }: SuggestedQues
               variant="secondary"
               size="sm"
               className="text-xs bg-primary/5 hover:bg-primary/10"
-              onClick={() => onQuestionClick?.(question)}
+              onClick={() => handleClick(question)}
             >
               <MessageSquarePlus className="mr-1 h-3 w-3" />
               {question}

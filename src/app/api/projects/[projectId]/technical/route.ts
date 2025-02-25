@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { projects } from '@/lib/portfolio/data';
+import { projects } from '@/lib/portfolio/projects';
+import { getRelatedProjects, getRelatedSkills } from '@/lib/portfolio/relations';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ projectId: string }> }
+  { params }: { params: { projectId: string } }
 ) {
   try {
-    const { projectId } = await params;
+    const { projectId } = params;
     const project = projects.find(p => p.id === projectId);
 
     if (!project) {
@@ -16,13 +17,21 @@ export async function GET(
       );
     }
 
+    const relatedProjects = getRelatedProjects(projectId);
+    const relatedSkills = getRelatedSkills(projectId);
+
     return NextResponse.json({
       technicalDetails: project.technicalDetails || {
         architecture: project.longDescription,
         challenges: [],
         solutions: []
       },
-      relatedProjects: project.relatedProjects || []
+      relatedProjects: relatedProjects.map(p => p?.id),
+      relatedSkills: relatedSkills.map(s => ({
+        id: s?.id,
+        name: s?.name,
+        proficiency: s?.proficiency
+      }))
     });
 
   } catch (error) {

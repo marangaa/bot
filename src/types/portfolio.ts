@@ -4,9 +4,9 @@ export interface TechnicalDetails {
     architecture: string;
     challenges: string[];
     solutions: string[];
-  }
-  
-  export interface Project {
+}
+
+export interface Project {
     id: string;
     title: string;
     description: string;
@@ -15,30 +15,36 @@ export interface TechnicalDetails {
     githubUrl?: string;
     liveUrl?: string;
     image?: string;
-    category: 'AI/ML' | 'Web Development' | 'Data Science' | 'Other';
+    category: 'AI/ML' | 'Web Development' | 'Data Science' | 'Education' | 'Productivity' | 'Enterprise';
     featured: boolean;
     createdAt: Date;
-    updatedAt: Date;
+    updatedAt?: Date;
     technicalDetails?: TechnicalDetails;
-    relatedProjects?: string[];
-  }
-  
-  export interface StructuredResponse {
+}
+
+export interface ProjectRelation {
+    sourceId: string;
+    targetId: string;
+    type: 'similar' | 'dependency' | 'successor';
+    description?: string;
+}
+
+export interface StructuredResponse {
     responseType: MessageType;
     content: string;
     data?: {
-      projectIds?: string[];
-      skillIds?: string[];
-      experienceIds?: string[];
-      highlightedTechnologies?: string[];
+        projectIds?: string[];
+        skillIds?: string[];
+        experienceIds?: string[];
+        highlightedTechnologies?: string[];
     };
     metadata?: {
-      confidence: number;
-      suggestedQuestions: string[];
+        confidence: number;
+        suggestedQuestions: string[];
     };
-  }
+}
 
-  export interface Experience {
+export interface Experience {
     id: string;
     title: string;
     company: string;
@@ -49,14 +55,20 @@ export interface TechnicalDetails {
     achievements: string[];
     technologies: string[];
     type: 'work' | 'education' | 'volunteer';
-  }
+}
 
-  export interface Skill {
+export interface Skill {
     id: string;
     name: string;
     category: 'AI/ML' | 'Web Development' | 'Data Science' | 'Cloud & Infrastructure' | 'Software Engineering';
     proficiency: number;
     description: string;
     yearsOfExperience: number;
-    relatedProjects: string[];
-  }
+}
+
+export interface SkillRelation {
+    skillId: string;
+    projectId: string;
+    type: 'primary' | 'secondary';
+    proficiencyDemonstrated: number;
+}

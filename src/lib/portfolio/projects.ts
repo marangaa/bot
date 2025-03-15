@@ -96,16 +96,19 @@ export const projects: Project[] = [
         `,
         technologies: [
             'OpenAI GPT-4',
+            'Google gemini',
+            'javascript',
             'Python',
             'FastAPI',
             'Redis',
             'React',
             'PostgreSQL'
         ],
+        liveUrl: 'https://insurance.vertexai.tech/',
         category: 'AI/ML',
         featured: true,
-        createdAt: new Date('2023-08-01'),
-        updatedAt: new Date('2023-12-01'),
+        createdAt: new Date('2025-01-01'),
+        updatedAt: new Date('2025-02-01'),
         technicalDetails: {
             architecture: `
                 Microservices architecture with real-time NLP processing, context management,
@@ -136,11 +139,12 @@ export const projects: Project[] = [
             'JavaScript',
             'Chrome Extensions API',
             'React',
-            'Firebase'
+            'Firebase',
+            'google gemini'
         ],
         category: 'Productivity',
         featured: false,
-        githubUrl: 'https://github.com/yourusername/focusflow',
+        githubUrl: 'https://owlette.vertexai.studio/',
         createdAt: new Date('2023-06-01'),
         technicalDetails: {
             architecture: 'Browser extension with cloud syncing and analytics capabilities',
@@ -191,6 +195,48 @@ export const projects: Project[] = [
         updatedAt: undefined
     },
     {
+        id: '8',
+        title: 'Email Tone Converter',
+        description: 'AI-powered application that transforms email content into different tones and styles.',
+        longDescription: `
+            A web application that helps professionals adjust the tone of their emails
+            for different contexts and recipients. Converts casual emails to formal ones,
+            technical content to simplified language, and adds empathy or assertiveness as needed.
+        `,
+        technologies: [
+            'React',
+            'TypeScript',
+            'Supabase',
+            'Google Gemini',
+            'TailwindCSS',
+            'Express'
+        ],
+        category: 'Productivity',
+        featured: true,
+        liveUrl: 'emailtone.vertexai.studio',
+        createdAt: new Date('2023-11-15'),
+        updatedAt: new Date('2024-01-10'),
+        technicalDetails: {
+            architecture: `
+                Full-stack application with AI-powered text transformation built on React frontend
+                and Express backend. Uses Google Gemini for natural language processing and Supabase
+                for user authentication, data storage, and saved templates.
+            `,
+            challenges: [
+                'Accurate tone detection and transformation',
+                'Context-aware language adjustments',
+                'Processing and maintaining email formatting',
+                'User template management'
+            ],
+            solutions: [
+                'Implemented custom prompt engineering for Gemini API',
+                'Created pre-processing pipeline for context analysis',
+                'Built format-preserving transformation engine',
+                'Developed efficient template storage using Supabase'
+            ]
+        }
+    },
+    {
         id: '6',
         title: 'AgentFlow Visualizer',
         description: 'Customer support workflow visualization and management system.',
@@ -205,6 +251,7 @@ export const projects: Project[] = [
             'WebSocket',
             'Redis'
         ],
+        liveUrl: 'https://agentflow.vertexai.studio/',
         category: 'Enterprise',
         featured: true,
         createdAt: new Date('2023-02-01'),
@@ -237,6 +284,7 @@ export const projects: Project[] = [
             'PostgreSQL',
             'Docker'
         ],
+        liveUrl: 'https://reina.vertexai.studio/',
         category: 'AI/ML',
         featured: true,
         createdAt: new Date('2023-01-01'),
@@ -254,5 +302,48 @@ export const projects: Project[] = [
             ]
         },
         updatedAt: undefined
+    },
+    {
+        id: '9',
+        title: 'AI Scheduling Companion',
+        description: 'Smart AI companion for handling customer-facing scheduling and appointment management.',
+        longDescription: `
+            A sophisticated AI platform that streamlines customer interactions for scheduling and appointment management.
+            This intelligent assistant handles booking, rescheduling, and reminders while maintaining a natural 
+            conversational experience. Integrates with calendar systems to provide seamless scheduling capabilities.
+        `,
+        technologies: [
+            'Next.js',
+            'TypeScript',
+            'Google Gemini',
+            'Calendar API',
+            'MongoDB',
+            'WebSockets',
+            'TailwindCSS'
+        ],
+        category: 'AI/ML',
+        featured: true,
+        liveUrl: 'https://scheduler.vertexai.studio/',
+        createdAt: new Date('2023-10-15'),
+        updatedAt: new Date('2024-02-20'),
+        technicalDetails: {
+            architecture: `
+                Event-driven architecture with real-time scheduling capabilities and AI-powered conversation
+                management. Implements a sophisticated booking system with conflict resolution and
+                intelligent availability suggestions based on user preferences and historical patterns.
+            `,
+            challenges: [
+                'Complex calendar integration across platforms',
+                'Natural language understanding for scheduling intents',
+                'Real-time availability management',
+                'Timezone and international booking handling'
+            ],
+            solutions: [
+                'Built unified calendar API adapter layer',
+                'Implemented intent recognition system with Gemini AI',
+                'Created real-time availability engine with conflict resolution',
+                'Developed internationalization system for global scheduling'
+            ]
+        }
     }
 ];

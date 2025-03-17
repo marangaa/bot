@@ -143,7 +143,7 @@ export const projects: Project[] = [
             'google gemini'
         ],
         category: 'Productivity',
-        featured: false,
+        featured: true,
         githubUrl: 'https://owlette.vertexai.studio/',
         createdAt: new Date('2023-06-01'),
         technicalDetails: {
@@ -343,6 +343,51 @@ export const projects: Project[] = [
                 'Implemented intent recognition system with Gemini AI',
                 'Created real-time availability engine with conflict resolution',
                 'Developed internationalization system for global scheduling'
+            ]
+        }
+    },
+    {
+        id: '10',
+        title: 'Tasky',
+        description: 'Voice-powered mobile productivity app with AI task management and smart notifications.',
+        longDescription: `
+            A cutting-edge mobile productivity application that leverages voice commands and AI to simplify
+            task management. Users can record tasks using natural voice commands, while the app automatically
+            sets appropriate reminders and prioritizes activities. The intelligent notification system adapts
+            to user behavior patterns for optimal productivity.
+        `,
+        technologies: [
+            'React Native',
+            'TypeScript',
+            'Google Gemini',
+            'Push Notifications',
+            'Speech Recognition',
+            'Redux',
+            'Expo'
+        ],
+        category: 'Productivity',
+        featured: true,
+        liveUrl: 'https://tasky.vertexai.studio/',
+        createdAt: new Date('2023-09-05'),
+        updatedAt: new Date('2024-03-10'),
+        technicalDetails: {
+            architecture: `
+                Cross-platform mobile application built with React Native and powered by Google Gemini
+                for advanced audio processing and task intelligence. Uses Firebase for backend services
+                and implements a sophisticated notification scheduling system based on user habits and
+                task priorities.
+            `,
+            challenges: [
+                'Accurate voice recognition in noisy environments',
+                'Intelligent task prioritization and categorization',
+                'Battery-efficient background processing',
+                'Context-aware notification timing'
+            ],
+            solutions: [
+                'Implemented noise-cancellation audio preprocessing',
+                'Developed ML model for task importance classification',
+                'Created efficient background service architecture',
+                'Built adaptive notification system using behavioral patterns'
             ]
         }
     }

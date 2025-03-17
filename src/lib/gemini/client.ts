@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI, GenerativeModel } from '@google/generative-ai';
+import { GoogleGenerativeAI, GenerativeModel, SchemaType } from '@google/generative-ai';
 import { buildSystemContext, RESPONSE_PROMPTS } from './portfolio-context';
 import type { ChatMessage, MessageType } from '@/types/chat';
 import { experiences, projects, skills } from '../portfolio/data';
@@ -59,7 +59,7 @@ export class GeminiClient {
       `;
 
       const result = await chat.sendMessage(enhancedPrompt);
-      const response = await result.response;
+      const response = result.response;
       const text = response.text();
   
       // Generate dynamic suggested questions based on the response
@@ -154,20 +154,77 @@ export class GeminiClient {
 
   async getProjectDetails(projectId: string): Promise<StructuredResponse> {
     try {
-      const chat = await this.initializeChat();
-      const result = await chat.sendMessage(RESPONSE_PROMPTS.PROJECT(projectId));
-      const response = await result.response;
-      return {
-        responseType: 'project_details',
-        content: response.text(),
-        data: {
-          projectIds: [projectId]
+      // Define schema for structured output
+      const schema = {
+        type: SchemaType.OBJECT,
+        properties: {
+          content: {
+            type: SchemaType.STRING,
+            description: "Main response content about the project"
+          },
+          responseType: {
+            type: SchemaType.STRING,
+            description: "Type of response",
+            enum: ["project_details", "skill_inquiry", "experience_details", "general"]
+          },
+          metadata: {
+            type: SchemaType.OBJECT,
+            properties: {
+              confidence: {
+                type: SchemaType.NUMBER,
+                description: "Confidence score for the response"
+              },
+              suggestedQuestions: {
+                type: SchemaType.ARRAY,
+                items: { type: SchemaType.STRING },
+                description: "Suggested follow-up questions"
+              }
+            }
+          },
+          data: {
+            type: SchemaType.OBJECT,
+            properties: {
+              projectIds: {
+                type: SchemaType.ARRAY,
+                items: { type: SchemaType.STRING },
+                description: "List of project IDs"
+              }
+            }
+          }
         },
-        metadata: {
-          confidence: 1,
-          suggestedQuestions: generateSuggestedQuestions(response.text(), 'project')
-        }
+        required: ["content", "responseType", "metadata", "data"]
       };
+
+      // Find the project data
+      const project = projects.find(p => p.id === projectId);
+      if (!project) throw new Error(`Project with ID ${projectId} not found`);
+
+      // Create structured model
+      const structuredModel = this.genAI.getGenerativeModel({
+        model: "gemini-1.5-pro",
+        generationConfig: {
+          temperature: 0.5,
+          responseMimeType: "application/json",
+          responseSchema: schema
+        }
+      });
+
+      // Create context-rich prompt
+      const prompt = `
+        You are a portfolio assistant representing the owner of this portfolio.
+        Create a detailed response about the following project:
+        ${JSON.stringify(project)}
+        
+        Include technical details, challenges, and solutions in your response.
+        Maintain a conversational, first-person tone as if you built this project.
+        Also suggest 3 relevant follow-up questions.
+      `;
+
+      // Generate structured response
+      const result = await structuredModel.generateContent(prompt);
+      const structuredResponse = JSON.parse(result.response.text());
+      
+      return structuredResponse;
     } catch (error) {
       console.error('Error getting project details:', error);
       throw error;
@@ -178,7 +235,7 @@ export class GeminiClient {
     try {
       const chat = await this.initializeChat();
       const result = await chat.sendMessage(RESPONSE_PROMPTS.SKILL(skillId));
-      const response = await result.response;
+      const response = result.response;
       return {
         responseType: 'skill_inquiry',
         content: response.text(),
@@ -200,7 +257,7 @@ export class GeminiClient {
     try {
       const chat = await this.initializeChat();
       const result = await chat.sendMessage(RESPONSE_PROMPTS.EXPERIENCE(experienceId));
-      const response = await result.response;
+      const response = result.response;
       return {
         responseType: 'experience_details',
         content: response.text(),

@@ -177,7 +177,7 @@ export const projects: Project[] = [
         ],
         category: 'Education',
         featured: true,
-        liveUrl: 'https://civiced-platform.com',
+        liveUrl: 'https://skika.vercel.app/',
         createdAt: new Date('2023-04-01'),
         technicalDetails: {
             architecture: 'Full-stack application with interactive learning modules',
@@ -323,7 +323,7 @@ export const projects: Project[] = [
         ],
         category: 'AI/ML',
         featured: true,
-        liveUrl: 'https://scheduler.vertexai.studio/',
+        liveUrl: 'https://resonate.vertexai.studio/',
         createdAt: new Date('2023-10-15'),
         updatedAt: new Date('2024-02-20'),
         technicalDetails: {
@@ -388,6 +388,51 @@ export const projects: Project[] = [
                 'Developed ML model for task importance classification',
                 'Created efficient background service architecture',
                 'Built adaptive notification system using behavioral patterns'
+            ]
+        }
+    },
+    {
+        id: '11',
+        title: 'Vector Search Test',
+        description: 'Comparative analysis of vector search versus traditional text search using a movie dataset.',
+        longDescription: `
+            A demonstration project that implements vector-based semantic search over traditional text-based
+            search methods. Using a comprehensive movie dataset, this project showcases how vector embeddings
+            can significantly improve search relevance and handle semantic queries that keyword search
+            struggles with.
+        `,
+        technologies: [
+            'MongoDB',
+            'Langchain',
+            'Vector Embeddings',
+            'Next.js',
+            'TypeScript',
+            'OpenAI Embeddings',
+            'Express.js'
+        ],
+        category: 'Data Science',
+        featured: true,
+        liveUrl: 'https://vector-search-test.vertexai.studio/',
+        createdAt: new Date('2023-08-15'),
+        updatedAt: new Date('2023-09-20'),
+        technicalDetails: {
+            architecture: `
+                Full-stack application using Next.js frontend and Express backend with MongoDB Atlas 
+                vector search capabilities. Implements a dual-pipeline architecture that processes 
+                queries through both traditional text search and vector-based semantic search for 
+                side-by-side comparison.
+            `,
+            challenges: [
+                'Optimizing vector embedding generation for large datasets',
+                'Implementing efficient nearest-neighbor search algorithms',
+                'Balancing search accuracy with performance',
+                'Creating meaningful visualization of search result comparisons'
+            ],
+            solutions: [
+                'Built batch processing system for embedding generation',
+                'Implemented MongoDB Atlas vector search with optimized indexes',
+                'Created composite scoring system combining semantic and lexical matching',
+                'Developed interactive visualization dashboard for result comparison'
             ]
         }
     }

@@ -2,5 +2,9 @@
 import { ChatInterface } from '@/components/chat/chat-interface';
 
 export default function ChatPage() {
-    return <ChatInterface />;
+    return (
+        <div className="w-full h-full overflow-hidden">
+            <ChatInterface />
+        </div>
+    );
 }

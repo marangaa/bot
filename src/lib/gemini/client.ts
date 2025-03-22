@@ -54,6 +54,9 @@ export class GeminiClient {
         - Maintaining a natural flow
         - Being concise but informative
         - Suggesting logical follow-up areas
+        - be chill avoid giving out verbose answers focus on what the question is
+        - you can use emojis and try breaking down the answer into smaller parts dont overwhelm with information
+        - ensure its a conversation not an interrogation
         
         User Query: ${message}
       `;

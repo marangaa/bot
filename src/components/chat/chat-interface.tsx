@@ -41,22 +41,22 @@ export function ChatInterface() {
 
     return (
         <>
-            <div className="flex flex-col h-screen max-w-4xl mx-auto bg-background/60 backdrop-blur-md">
+            <div className="flex flex-col h-screen w-full mx-auto bg-background/60 backdrop-blur-md sm:max-w-4xl">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center justify-between p-4 border-b"
+                    className="flex items-center justify-between p-3 sm:p-4 border-b"
                 >
-                    <div className="flex items-center space-x-3">
-                        <Avatar className="h-10 w-10 ring-2 ring-primary/10">
-                            <Sparkles className="h-5 w-5 text-primary" />
+                    <div className="flex items-center space-x-2 sm:space-x-3">
+                        <Avatar className="h-8 w-8 sm:h-10 sm:w-10 ring-2 ring-primary/10">
+                            <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                         </Avatar>
                         <div>
-                            <h2 className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
+                            <h2 className="text-base sm:text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
                                 Portfolio Assistant
                             </h2>
-                            <p className="text-xs text-muted-foreground">AI Engineer | Always Online</p>
+                            <p className="text-[10px] sm:text-xs text-muted-foreground">AI Engineer | Always Online</p>
                         </div>
                     </div>
                     <Button
@@ -70,39 +70,41 @@ export function ChatInterface() {
                 </motion.div>
 
                 {/* Messages Area */}
-                <ScrollArea className="flex-1 p-4">
-                    <AnimatePresence mode="popLayout">
-                        {state.messages.map((message, index) => (
-                            <ChatMessage
-                                key={message.id}
-                                message={message}
-                                isLast={index === state.messages.length - 1}
-                                onSuggestedQuestionClick={handleSuggestedQuestionClick}
-                            />
-                        ))}
+                <ScrollArea className="flex-1 p-2 sm:p-4 w-full">
+                    <div className="w-full flex flex-col">
+                        <AnimatePresence mode="popLayout">
+                            {state.messages.map((message, index) => (
+                                <ChatMessage
+                                    key={message.id}
+                                    message={message}
+                                    isLast={index === state.messages.length - 1}
+                                    onSuggestedQuestionClick={handleSuggestedQuestionClick}
+                                />
+                            ))}
 
-                        {/* Streaming content */}
-                        {state.streamingContent && (
-                            <ChatMessage
-                                message={{
-                                    id: 'streaming',
-                                    role: 'assistant',
-                                    content: state.streamingContent,
-                                    timestamp: new Date(),
-                                }}
-                                isLast={true}
-                                isStreaming={true}
-                            />
-                        )}
-                    </AnimatePresence>
+                            {/* Streaming content */}
+                            {state.streamingContent && (
+                                <ChatMessage
+                                    message={{
+                                        id: 'streaming',
+                                        role: 'assistant',
+                                        content: state.streamingContent,
+                                        timestamp: new Date(),
+                                    }}
+                                    isLast={true}
+                                    isStreaming={true}
+                                />
+                            )}
+                        </AnimatePresence>
+                    </div>
                     <div ref={scrollRef} />
                 </ScrollArea>
 
                 {/* Input Area */}
-                <div className="border-t bg-background/60 backdrop-blur-md p-4">
+                <div className="border-t bg-background/60 backdrop-blur-md p-2 sm:p-4">
                     <ChatInput
                         onSubmit={handleSendMessage}
-                        className="max-w-3xl mx-auto"
+                        className="w-full mx-auto"
                         disabled={state.isLoading}
                         value={inputValue}
                         onChange={setInputValue}

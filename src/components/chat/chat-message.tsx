@@ -124,27 +124,27 @@ export function ChatMessage({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       className={cn(
-        'flex w-full items-start gap-4 p-4',
-        isUser ? 'justify-end' : 'justify-start'
+        'flex w-full mb-4 items-end',
+        message.role === 'user' ? 'justify-end' : 'justify-start'
       )}
     >
       {!isUser && (
-        <Avatar>
+        <Avatar className="mr-2 flex-shrink-0">
           <Bot className="h-5 w-5 text-primary" />
         </Avatar>
       )}
 
       <div
         className={cn(
-          'flex flex-col space-y-2 overflow-hidden rounded-lg px-4 py-3 max-w-[80%]',
+          'flex flex-col space-y-2 rounded-lg px-4 py-3',
           isUser 
-            ? 'bg-primary text-primary-foreground' 
-            : 'bg-muted',
+            ? 'bg-primary text-primary-foreground w-fit max-w-[85%] sm:max-w-[75%]' 
+            : 'bg-muted w-fit max-w-[85%] sm:max-w-[75%]',
           isLast && 'mb-4'
         )}
       >
-        <div className="prose prose-sm dark:prose-invert overflow-hidden break-words leading-relaxed">
-          <p className="text-pretty">{message.content}</p>
+        <div className="prose prose-sm dark:prose-invert break-words whitespace-normal w-full">
+          <p className="m-0 text-pretty overflow-visible">{message.content}</p>
           {showCursor && (
             <motion.span
               initial={{ opacity: 0 }}
@@ -221,7 +221,7 @@ export function ChatMessage({
       </div>
 
       {isUser && (
-        <Avatar>
+        <Avatar className="ml-2 flex-shrink-0">
           <User className="h-5 w-5 text-primary" />
         </Avatar>
       )}

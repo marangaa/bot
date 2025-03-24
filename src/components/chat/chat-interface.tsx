@@ -70,8 +70,8 @@ export function ChatInterface() {
                 </motion.div>
 
                 {/* Messages Area */}
-                <ScrollArea className="flex-1 p-2 sm:p-4">
-                    <div className="max-w-full">
+                <ScrollArea className="flex-1 p-2 sm:p-4 w-full">
+                    <div className="w-full flex flex-col">
                         <AnimatePresence mode="popLayout">
                             {state.messages.map((message, index) => (
                                 <ChatMessage

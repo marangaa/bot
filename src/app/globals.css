@@ -119,3 +119,24 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+/* Add these styles to your existing global CSS */
+
+.prose p {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* Fix for mobile overflow issues */
+@media (max-width: 640px) {
+  .chat-message-container {
+    max-width: 85% !important;
+    width: auto !important;
+  }
+  
+  .prose {
+    max-width: 100% !important;
+  }
+}

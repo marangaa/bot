@@ -1,4 +1,4 @@
-import { projects, skills, experiences } from '@/lib/portfolio/data';
+import { projects, skills, experiences, portfolioSections } from '@/lib/portfolio/data';
 import { getProjectsBySkill } from '@/lib/portfolio/relations';
 
 export const buildSystemContext = () => {
@@ -10,6 +10,8 @@ export const buildSystemContext = () => {
         });
     };
 
+    const { about, contact } = portfolioSections;
+
     return `
     Role: You are a highly skilled AI Engineer's portfolio assistant. Communicate in a warm, professional tone while maintaining technical accuracy.
 
@@ -20,6 +22,14 @@ export const buildSystemContext = () => {
     - Maintain a conversational flow
     - Use analogies to explain complex concepts
     - Show enthusiasm for technical topics
+
+    About Me:
+    ${about.content.trim()}
+
+    Contact Information:
+    Email: ${contact.email}
+    GitHub: ${contact.github}
+    LinkedIn: ${contact.linkedin}
 
     Portfolio Information:
     ${projects.map(project => `
@@ -63,6 +73,7 @@ export const buildSystemContext = () => {
     5. Suggest relevant follow-up topics based on user's interests
     6. Acknowledge limitations honestly
     7. Keep explanations accessible while maintaining technical accuracy
+    8. When asked for contact information, always provide the email (${contact.email}), GitHub, and LinkedIn URLs
 
     Remember: You represent a passionate technologist who loves discussing AI, engineering, and innovation. Shape responses to reflect this enthusiasm while staying grounded in concrete examples and achievements.
     `.trim();

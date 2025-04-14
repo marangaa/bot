@@ -24,5 +24,13 @@ export const skills: Skill[] = [
         proficiency: 88,
         description: 'Designing and implementing ML pipelines and infrastructure.',
         yearsOfExperience: 4
+    },
+    {
+        id: '4',
+        name: 'AI Engineering',
+        category: 'AI/ML',
+        proficiency: 92,
+        description: 'Developing and integrating AI systems into applications with focus on practical business solutions.',
+        yearsOfExperience: 2
     }
 ];

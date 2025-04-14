@@ -1,7 +1,7 @@
 export { projects } from './projects';
 export { skills } from './skills';
 export { experiences } from './experiences';
-export { portfolioSections } from './sections';
+export { portfolioSections } from './about';
 export {
   projectRelations,
   skillRelations,

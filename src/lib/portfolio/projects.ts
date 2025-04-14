@@ -305,12 +305,12 @@ export const projects: Project[] = [
     },
     {
         id: '9',
-        title: 'AI Scheduling Companion',
-        description: 'Smart AI companion for handling customer-facing scheduling and appointment management.',
+        title: 'Resonate',
+        description: 'AI-powered platform that transforms standard forms and surveys into engaging, conversational experiences.',
         longDescription: `
-            A sophisticated AI platform that streamlines customer interactions for scheduling and appointment management.
-            This intelligent assistant handles booking, rescheduling, and reminders while maintaining a natural 
-            conversational experience. Integrates with calendar systems to provide seamless scheduling capabilities.
+            Resonate on Vertex AI Studio is an AI-powered platform focused on transforming standard forms and surveys into engaging, 
+            conversational experiences. It leverages artificial intelligence to help businesses collect higher-quality data by 
+            mimicking natural dialogue, making the forms feel more like interactive conversations rather than static questionnaires.
         `,
         technologies: [
             'Next.js',
@@ -328,21 +328,21 @@ export const projects: Project[] = [
         updatedAt: new Date('2024-02-20'),
         technicalDetails: {
             architecture: `
-                Event-driven architecture with real-time scheduling capabilities and AI-powered conversation
-                management. Implements a sophisticated booking system with conflict resolution and
-                intelligent availability suggestions based on user preferences and historical patterns.
+                Event-driven architecture with real-time conversational capabilities and AI-powered form
+                management. Implements a sophisticated response system with natural language processing and
+                intelligent data collection based on user inputs and contextual understanding.
             `,
             challenges: [
-                'Complex calendar integration across platforms',
-                'Natural language understanding for scheduling intents',
-                'Real-time availability management',
-                'Timezone and international booking handling'
+                'Creating natural conversational flow from static form fields',
+                'Maintaining data integrity while enhancing user experience',
+                'Real-time response generation',
+                'Adapting to different form types and industries'
             ],
             solutions: [
-                'Built unified calendar API adapter layer',
-                'Implemented intent recognition system with Gemini AI',
-                'Created real-time availability engine with conflict resolution',
-                'Developed internationalization system for global scheduling'
+                'Built dynamic conversation flow engine',
+                'Implemented structured data validation with conversational interface',
+                'Created response generation system with Gemini AI',
+                'Developed template system for industry-specific form conversations'
             ]
         }
     },

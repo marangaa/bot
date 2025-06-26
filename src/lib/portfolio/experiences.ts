@@ -26,6 +26,28 @@ export const experiences: Experience[] = [
     {
         id: '2',
         title: 'Software Engineer',
+        company: 'Chpter',
+        location: 'Remote',
+        startDate: new Date('2024-08-01').toISOString(),
+        description: 'Developed and maintained scalable web applications and backend systems.',
+        achievements: [
+            'Built high-performance web applications using modern frameworks',
+            'Collaborated with cross-functional teams to deliver product features',
+            'Implemented efficient database designs and API architectures'
+        ],
+        technologies: [
+            'React',
+            'Node.js',
+            'TypeScript',
+            'PostgreSQL',
+            'AWS',
+            'Docker'
+        ],
+        type: 'work'
+    },
+    {
+        id: '3',
+        title: 'Software Engineer',
         company: 'freelance',
         location: 'Remote',
         startDate: new Date('2023-06-01').toISOString(),
@@ -44,7 +66,7 @@ export const experiences: Experience[] = [
         type: 'work'
     },
     {
-        id: '3',
+        id: '4',
         title: 'Data Scientist',
         company: 'Everything Data',
         location: 'Nairobi, KE',
@@ -66,7 +88,7 @@ export const experiences: Experience[] = [
         type: 'work'
     },
     {
-        id: '4',
+        id: '5',
         title: 'Software Engineer',
         company: 'Freelance',
         location: 'Remote',

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/providers/theme-provider';
-import { ChatProvider } from '@/components/providers/chat-provider';
 import { siteConfig } from '@/config/site';
 import './globals.css';
 import React from "react";
@@ -30,7 +29,7 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
         <ThemeProvider defaultTheme="system">
-            <ChatProvider>{children}</ChatProvider>
+            {children}
         </ThemeProvider>
         <Analytics />
         </body>

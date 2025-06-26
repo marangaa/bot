@@ -1,23 +1,21 @@
+'use client'
 import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Loader2, Command } from 'lucide-react';
+import { Send, Loader2 } from 'lucide-react';
 import TextareaAutosize from 'react-textarea-autosize';
 import { Button } from '@/components/ui/button';
-import { useChat } from '@/components/providers/chat-provider';
 import { cn } from '@/lib/utils';
 
 interface ChatInputProps {
     className?: string;
-    onSubmit?: (value: string) => void;
+    onSubmit?: (e: React.FormEvent) => void;
     disabled?: boolean;
     value?: string;
-    onChange?: (value: string) => void;
+    onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 export function ChatInput({ className, onSubmit, disabled, value, onChange }: ChatInputProps) {
     const inputRef = useRef<HTMLTextAreaElement>(null);
-    const { state } = useChat();
-    const isLoading = state.isLoading;
 
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
@@ -36,11 +34,9 @@ export function ChatInput({ className, onSubmit, disabled, value, onChange }: Ch
         if (!value?.trim() || disabled) return;
 
         try {
-            await onSubmit?.(value);
-            onChange?.('');
+            await onSubmit?.(e);
         } catch (error) {
             console.error('Error sending message:', error);
-            // You could add toast notification here
         }
     };
 
@@ -55,29 +51,20 @@ export function ChatInput({ className, onSubmit, disabled, value, onChange }: Ch
         >
             <form
                 onSubmit={handleSubmit}
-                className="relative flex items-center justify-center gap-2 p-4"
+                className="relative flex items-end justify-center gap-3 p-2"
             >
-                <Button
-                    type="button"
-                    size="icon"
-                    variant="ghost"
-                    className="absolute left-4 hidden md:flex"
-                    tabIndex={-1}
-                >
-                    <Command className="h-4 w-4 text-muted-foreground" />
-                </Button>
-
-                <div className="relative flex flex-1 items-center max-w-3xl">
+                <div className="relative flex flex-1 items-center max-w-4xl">
                     <TextareaAutosize
                         ref={inputRef}
                         tabIndex={0}
                         rows={1}
                         value={value || ''}
-                        onChange={(e) => onChange?.(e.target.value)}
-                        placeholder="Message the AI portfolio assistant... (Press ⌘K to focus)"
+                        onChange={onChange}
+                        placeholder="Ask about my projects, skills, or experience... (⌘K to focus)"
                         spellCheck={false}
                         className={cn(
-                            "flex w-full rounded-lg border bg-background px-12 py-3 text-sm outline-none placeholder:text-muted-foreground",
+                            "flex w-full rounded-xl border-2 bg-background/90 px-5 py-4 text-sm font-medium leading-relaxed tracking-wide outline-none placeholder:text-muted-foreground/70 placeholder:font-normal",
+                            "focus:border-primary/60 focus:ring-2 focus:ring-primary/20 transition-all duration-200",
                             "disabled:cursor-not-allowed disabled:opacity-50",
                             disabled && "cursor-not-allowed opacity-50"
                         )}
@@ -91,8 +78,8 @@ export function ChatInput({ className, onSubmit, disabled, value, onChange }: Ch
                         disabled={disabled}
                     />
                     <div className="absolute right-4 flex items-center space-x-2">
-                        {!isLoading && (value?.length ?? 0) > 0 && (
-                            <span className="text-xs text-muted-foreground">Press ⏎ to send</span>
+                        {!disabled && (value?.length ?? 0) > 0 && (
+                            <span className="text-xs text-muted-foreground font-medium">Press ⏎ to send</span>
                         )}
                     </div>
                 </div>
@@ -100,13 +87,14 @@ export function ChatInput({ className, onSubmit, disabled, value, onChange }: Ch
                 <Button
                     type="submit"
                     size="icon"
-                    disabled={isLoading || !value?.trim().length || disabled}
+                    disabled={disabled || !value?.trim().length}
                     className={cn(
-                        'shrink-0',
-                        (isLoading || disabled) && 'cursor-not-allowed opacity-60'
+                        'shrink-0 h-12 w-12 rounded-xl shadow-lg transition-all duration-200',
+                        'hover:shadow-xl hover:scale-105',
+                        (disabled) && 'cursor-not-allowed opacity-60'
                     )}
                 >
-                    {isLoading ? (
+                    {disabled ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
                         <Send className="h-4 w-4" />

@@ -5,7 +5,7 @@ export const skills: Skill[] = [
         id: '1',
         name: 'Large Language Models',
         category: 'AI/ML',
-        proficiency: 90,
+        level: 90,
         description: 'Expert in LLM fine-tuning, prompt engineering, and deployment.',
         yearsOfExperience: 3
     },
@@ -13,7 +13,7 @@ export const skills: Skill[] = [
         id: '2',
         name: 'Full Stack Development',
         category: 'Web Development',
-        proficiency: 85,
+        level: 85,
         description: 'Building modern web applications with React, Next.js, and Node.js.',
         yearsOfExperience: 5
     },
@@ -21,7 +21,7 @@ export const skills: Skill[] = [
         id: '3',
         name: 'MLOps',
         category: 'AI/ML',
-        proficiency: 88,
+        level: 88,
         description: 'Designing and implementing ML pipelines and infrastructure.',
         yearsOfExperience: 4
     },
@@ -29,7 +29,7 @@ export const skills: Skill[] = [
         id: '4',
         name: 'AI Engineering',
         category: 'AI/ML',
-        proficiency: 92,
+        level: 92,
         description: 'Developing and integrating AI systems into applications with focus on practical business solutions.',
         yearsOfExperience: 2
     }

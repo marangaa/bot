@@ -1,21 +1,36 @@
+'use client'
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Command } from 'lucide-react';
+import { useChat, Message } from '@ai-sdk/react';
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChatInput } from './chat-input';
 import { ChatMessage } from './chat-message';
 import { CommandPalette } from './command-palette';
-import { useChat } from '@/components/providers/chat-provider';
-import { useChatScroll } from '@/hooks/use-chat-scroll';
 
-export function ChatInterface() {
-    const { state, sendMessage } = useChat();
+interface ChatInterfaceProps {
+  id?: string;
+  initialMessages?: Message[];
+}
+
+export function ChatInterface({ id, initialMessages = [] }: ChatInterfaceProps) {
     const [commandOpen, setCommandOpen] = useState(false);
-    const [inputValue, setInputValue] = useState('');
-    const scrollRef = useChatScroll({
-        messages: state.messages,
+    
+    const {
+        messages,
+        input,
+        handleInputChange,
+        handleSubmit,
+        status,
+        error,
+    } = useChat({
+        api: '/api/chat',
+        id, // Pass the chat ID for persistence
+        initialMessages, // Load initial messages
+        maxSteps: 3, // Allow multi-step tool usage
+        sendExtraMessageFields: true, // Send id and createdAt for each message
     });
 
     // Handle keyboard shortcuts
@@ -30,14 +45,6 @@ export function ChatInterface() {
         document.addEventListener('keydown', down);
         return () => document.removeEventListener('keydown', down);
     }, []);
-
-    const handleSendMessage = async (content: string) => {
-        await sendMessage(content);
-    };
-
-    const handleSuggestedQuestionClick = (question: string) => {
-        setInputValue(question);
-    };
 
     return (
         <>
@@ -73,41 +80,36 @@ export function ChatInterface() {
                 <ScrollArea className="flex-1 p-2 sm:p-4 w-full">
                     <div className="w-full flex flex-col">
                         <AnimatePresence mode="popLayout">
-                            {state.messages.map((message, index) => (
+                            {messages.map((message, index) => (
                                 <ChatMessage
                                     key={message.id}
                                     message={message}
-                                    isLast={index === state.messages.length - 1}
-                                    onSuggestedQuestionClick={handleSuggestedQuestionClick}
+                                    isLast={index === messages.length - 1}
+                                    isStreaming={status === 'streaming' && index === messages.length - 1}
                                 />
                             ))}
-
-                            {/* Streaming content */}
-                            {state.streamingContent && (
-                                <ChatMessage
-                                    message={{
-                                        id: 'streaming',
-                                        role: 'assistant',
-                                        content: state.streamingContent,
-                                        timestamp: new Date(),
-                                    }}
-                                    isLast={true}
-                                    isStreaming={true}
-                                />
-                            )}
                         </AnimatePresence>
+                        
+                        {error && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="text-red-500 text-sm p-4 bg-red-50 dark:bg-red-900/20 rounded-lg"
+                            >
+                                Error: {error.message}
+                            </motion.div>
+                        )}
                     </div>
-                    <div ref={scrollRef} />
                 </ScrollArea>
 
                 {/* Input Area */}
                 <div className="border-t bg-background/60 backdrop-blur-md p-2 sm:p-4">
                     <ChatInput
-                        onSubmit={handleSendMessage}
+                        onSubmit={handleSubmit}
                         className="w-full mx-auto"
-                        disabled={state.isLoading}
-                        value={inputValue}
-                        onChange={setInputValue}
+                        disabled={status !== 'ready'}
+                        value={input}
+                        onChange={(e) => handleInputChange(e)}
                     />
                 </div>
             </div>

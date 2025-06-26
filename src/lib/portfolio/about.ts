@@ -3,7 +3,7 @@ export const portfolioSections = {
         title: 'About Me',
         content: `
             I'm an AI Engineer specialized in developing and deploying large language models
-            and building AI-powered applications. With over 5 years of experience in machine
+            and building AI-powered applications and experience in machine
             learning and software development, I focus on creating practical AI solutions
             that solve real-world problems.
     `,

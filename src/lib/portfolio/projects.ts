@@ -46,48 +46,6 @@ export const projects: Project[] = [
     },
     {
         id: '2',
-        title: 'LLM Training Pipeline',
-        description: 'End-to-end pipeline for fine-tuning and deploying large language models.',
-        longDescription: `
-      Developed a comprehensive pipeline for training and deploying LLMs at scale. 
-      Includes data preprocessing, model fine-tuning, evaluation metrics, and 
-      automated deployment workflows.
-    `,
-        technologies: [
-            'PyTorch',
-            'Transformers',
-            'Docker',
-            'MLflow',
-            'Ray'
-        ],
-        category: 'AI/ML',
-        featured: true,
-        githubUrl: 'https://github.com/yourusername/llm-pipeline',
-        createdAt: new Date('2023-12-01'),
-        updatedAt: new Date('2023-12-01'),
-        technicalDetails: {
-            architecture: `
-                Developed a comprehensive pipeline for training and deploying LLMs at scale. 
-                The system incorporates automated data preprocessing, distributed training infrastructure,
-                and sophisticated model evaluation frameworks. Implements a microservices architecture
-                for model serving with automated scaling capabilities.
-            `,
-            challenges: [
-                'Scaling training across multiple GPU clusters',
-                'Managing large-scale training data pipelines',
-                'Optimizing model deployment for production',
-                'Implementing robust monitoring and evaluation'
-            ],
-            solutions: [
-                'Built distributed training system using Ray',
-                'Developed automated data validation and cleaning pipeline',
-                'Created containerized deployment system with Kubernetes',
-                'Implemented comprehensive metrics collection and alerting'
-            ]
-        }
-    },
-    {
-        id: '3',
         title: 'InsuranceBot AI',
         description: 'AI-powered chatbot for insurance customer engagement and policy explanation.',
         longDescription: `
@@ -128,7 +86,7 @@ export const projects: Project[] = [
         }
     },
     {
-        id: '4',
+        id: '3',
         title: 'FocusFlow',
         description: 'Chrome extension for productivity enhancement and focus management.',
         longDescription: `
@@ -161,83 +119,7 @@ export const projects: Project[] = [
         }
     },
     {
-        id: '5',
-        title: 'CivicEd Platform',
-        description: 'Educational platform for civic education and legal awareness.',
-        longDescription: `
-            Comprehensive platform featuring two main tools: PolicyExplainer for understanding
-            government policies and LegalEd for basic legal education and awareness.
-        `,
-        technologies: [
-            'Next.js',
-            'TypeScript',
-            'MongoDB',
-            'Express',
-            'D3.js'
-        ],
-        category: 'Education',
-        featured: true,
-        liveUrl: 'https://skika.vercel.app/',
-        createdAt: new Date('2023-04-01'),
-        technicalDetails: {
-            architecture: 'Full-stack application with interactive learning modules',
-            challenges: [
-                'Complex legal content simplification',
-                'Interactive visualization of legal processes',
-                'Content management system'
-            ],
-            solutions: [
-                'Created modular learning system',
-                'Implemented interactive process visualizations',
-                'Built custom CMS for legal content'
-            ]
-        },
-        updatedAt: undefined
-    },
-    {
-        id: '8',
-        title: 'Email Tone Converter',
-        description: 'AI-powered application that transforms email content into different tones and styles.',
-        longDescription: `
-            A web application that helps professionals adjust the tone of their emails
-            for different contexts and recipients. Converts casual emails to formal ones,
-            technical content to simplified language, and adds empathy or assertiveness as needed.
-        `,
-        technologies: [
-            'React',
-            'TypeScript',
-            'Supabase',
-            'Google Gemini',
-            'TailwindCSS',
-            'Express'
-        ],
-        category: 'Productivity',
-        featured: true,
-        liveUrl: 'emailtone.vertexai.studio',
-        createdAt: new Date('2023-11-15'),
-        updatedAt: new Date('2024-01-10'),
-        technicalDetails: {
-            architecture: `
-                Full-stack application with AI-powered text transformation built on React frontend
-                and Express backend. Uses Google Gemini for natural language processing and Supabase
-                for user authentication, data storage, and saved templates.
-            `,
-            challenges: [
-                'Accurate tone detection and transformation',
-                'Context-aware language adjustments',
-                'Processing and maintaining email formatting',
-                'User template management'
-            ],
-            solutions: [
-                'Implemented custom prompt engineering for Gemini API',
-                'Created pre-processing pipeline for context analysis',
-                'Built format-preserving transformation engine',
-                'Developed efficient template storage using Supabase'
-            ]
-        }
-    },
-    {
-        id: '6',
+        id: '4',
         title: 'AgentFlow Visualizer',
         description: 'Customer support workflow visualization and management system.',
         longDescription: `
@@ -270,84 +152,7 @@ export const projects: Project[] = [
         }
     },
     {
-        id: '7',
-        title: 'RealEstate AI',
-        description: 'Intelligent real estate platform with AI-powered insights.',
-        longDescription: `
-            Comprehensive real estate platform featuring AI-powered property valuation,
-            market analysis, and investment recommendations.
-        `,
-        technologies: [
-            'Python',
-            'TensorFlow',
-            'React',
-            'PostgreSQL',
-            'Docker'
-        ],
-        liveUrl: 'https://reina.vertexai.studio/',
-        category: 'AI/ML',
-        featured: true,
-        createdAt: new Date('2023-01-01'),
-        technicalDetails: {
-            architecture: 'ML-powered platform with real-time market analysis',
-            challenges: [
-                'Real-time property valuation',
-                'Market trend analysis',
-                'Large-scale data processing'
-            ],
-            solutions: [
-                'Implemented ML-based valuation model',
-                'Created market analysis pipeline',
-                'Built scalable data processing system'
-            ]
-        },
-        updatedAt: undefined
-    },
-    {
-        id: '9',
-        title: 'Resonate',
-        description: 'AI-powered platform that transforms standard forms and surveys into engaging, conversational experiences.',
-        longDescription: `
-            Resonate on Vertex AI Studio is an AI-powered platform focused on transforming standard forms and surveys into engaging, 
-            conversational experiences. It leverages artificial intelligence to help businesses collect higher-quality data by 
-            mimicking natural dialogue, making the forms feel more like interactive conversations rather than static questionnaires.
-        `,
-        technologies: [
-            'Next.js',
-            'TypeScript',
-            'Google Gemini',
-            'Calendar API',
-            'MongoDB',
-            'WebSockets',
-            'TailwindCSS'
-        ],
-        category: 'AI/ML',
-        featured: true,
-        liveUrl: 'https://resonate.vertexai.studio/',
-        createdAt: new Date('2023-10-15'),
-        updatedAt: new Date('2024-02-20'),
-        technicalDetails: {
-            architecture: `
-                Event-driven architecture with real-time conversational capabilities and AI-powered form
-                management. Implements a sophisticated response system with natural language processing and
-                intelligent data collection based on user inputs and contextual understanding.
-            `,
-            challenges: [
-                'Creating natural conversational flow from static form fields',
-                'Maintaining data integrity while enhancing user experience',
-                'Real-time response generation',
-                'Adapting to different form types and industries'
-            ],
-            solutions: [
-                'Built dynamic conversation flow engine',
-                'Implemented structured data validation with conversational interface',
-                'Created response generation system with Gemini AI',
-                'Developed template system for industry-specific form conversations'
-            ]
-        }
-    },
-    {
-        id: '10',
+        id: '5',
         title: 'Tasky',
         description: 'Voice-powered mobile productivity app with AI task management and smart notifications.',
         longDescription: `
@@ -392,7 +197,7 @@ export const projects: Project[] = [
         }
     },
     {
-        id: '11',
+        id: '6',
         title: 'Vector Search Test',
         description: 'Comparative analysis of vector search versus traditional text search using a movie dataset.',
         longDescription: `
@@ -433,6 +238,177 @@ export const projects: Project[] = [
                 'Implemented MongoDB Atlas vector search with optimized indexes',
                 'Created composite scoring system combining semantic and lexical matching',
                 'Developed interactive visualization dashboard for result comparison'
+            ]
+        }
+    },
+    {
+        id: '7',
+        title: 'Vector Search RAG System',
+        description: 'Advanced RAG system combining vector search with semantic understanding for movie dataset exploration.',
+        longDescription: `
+            Built a sophisticated RAG (Retrieval-Augmented Generation) system that combines vector search 
+            with semantic understanding. The system uses movie data to demonstrate advanced search capabilities,
+            semantic similarity matching, and contextual information retrieval.
+        `,
+        technologies: [
+            'Next.js',
+            'Vector Database',
+            'OpenAI Embeddings',
+            'RAG Architecture',
+            'TypeScript',
+            'TailwindCSS'
+        ],
+        category: 'AI/ML',
+        featured: true,
+        liveUrl: 'https://vector-search-test.vercel.app/',
+        createdAt: new Date('2024-11-01'),
+        updatedAt: new Date('2024-12-01'),
+        technicalDetails: {
+            architecture: `
+                Implements a modern RAG architecture with vector embeddings for semantic search.
+                Uses advanced chunking strategies, similarity scoring, and contextual retrieval
+                to provide accurate and relevant movie information and recommendations.
+            `,
+            challenges: [
+                'Optimizing vector embeddings for movie metadata',
+                'Implementing efficient semantic search algorithms',
+                'Balancing precision and recall in search results',
+                'Managing large-scale movie dataset efficiently'
+            ],
+            solutions: [
+                'Developed multi-dimensional embedding strategy for movie attributes',
+                'Implemented hybrid search combining vector and keyword matching',
+                'Created intelligent ranking system with user context',
+                'Built efficient caching layer for frequent queries'
+            ]
+        }
+    },
+    {
+        id: '8',
+        title: 'RAG Function Calling Studio',
+        description: 'Advanced RAG system with function calling, human-in-the-loop workflows, and AI SDK integration.',
+        longDescription: `
+            Enterprise-grade RAG system featuring advanced function calling capabilities, human-in-the-loop
+            validation, and seamless AI SDK integration. Demonstrates sophisticated AI orchestration
+            with real-time collaboration and intelligent task routing.
+        `,
+        technologies: [
+            'AI SDK',
+            'Function Calling',
+            'RAG Architecture',
+            'Human-in-the-Loop',
+            'Next.js',
+            'TypeScript',
+            'Real-time Updates'
+        ],
+        category: 'AI/ML',
+        featured: true,
+        liveUrl: 'https://rfp.vertexai.studio/chat/',
+        createdAt: new Date('2024-10-01'),
+        updatedAt: new Date('2024-12-01'),
+        technicalDetails: {
+            architecture: `
+                Advanced RAG system with intelligent function calling and human oversight.
+                Implements sophisticated AI workflows with real-time collaboration features,
+                automated task routing, and intelligent decision-making capabilities.
+            `,
+            challenges: [
+                'Implementing reliable function calling with AI models',
+                'Building efficient human-in-the-loop workflows',
+                'Managing complex AI tool orchestration',
+                'Ensuring real-time collaboration and updates'
+            ],
+            solutions: [
+                'Built robust function calling framework with error handling',
+                'Developed intuitive human oversight interface',
+                'Created intelligent task routing and priority system',
+                'Implemented real-time WebSocket-based collaboration'
+            ]
+        }
+    },
+    {
+        id: '9',
+        title: 'WhatsApp AI Lead Generation Agent',
+        description: 'AI-powered WhatsApp agent that captures leads 24/7, qualifies prospects, and books appointments automatically.',
+        longDescription: `
+            Deployed AI assistants that revolutionize lead generation through WhatsApp automation.
+            The system captures leads around the clock, intelligently qualifies prospects using
+            conversational AI, and seamlessly books appointments with integrated calendar systems.
+        `,
+        technologies: [
+            'WhatsApp Business API',
+            'Conversational AI',
+            'Lead Qualification',
+            'Calendar Integration',
+            'CRM Integration',
+            'Webhook Management',
+            'Natural Language Processing'
+        ],
+        category: 'AI/ML',
+        featured: true,
+        liveUrl: 'https://whatsapp.vertexai.studio/',
+        createdAt: new Date('2024-09-01'),
+        updatedAt: new Date('2024-12-01'),
+        technicalDetails: {
+            architecture: `
+                Comprehensive WhatsApp automation system with intelligent lead processing.
+                Integrates multiple AI models for conversation handling, lead scoring,
+                and automated appointment scheduling with CRM synchronization.
+            `,
+            challenges: [
+                'Managing WhatsApp API rate limits and compliance',
+                'Building intelligent conversation flows',
+                'Implementing reliable lead qualification logic',
+                'Integrating with multiple calendar and CRM systems'
+            ],
+            solutions: [
+                'Developed intelligent message queuing and rate limiting system',
+                'Created sophisticated conversation state management',
+                'Built AI-powered lead scoring and qualification engine',
+                'Implemented universal API integration layer for CRM/calendar systems'
+            ]
+        }
+    },
+    {
+        id: '10',
+        title: 'Resonate Conversational Feedback Platform',
+        description: 'Transform feedback collection with conversational AI that captures richer insights and boosts completion rates.',
+        longDescription: `
+            Revolutionary feedback platform that goes beyond static forms and surveys. Resonate uses
+            conversational AI to capture richer, more meaningful feedback while dramatically improving
+            completion rates and delivering actionable insights that drive business growth.
+        `,
+        technologies: [
+            'Conversational AI',
+            'Feedback Analytics',
+            'Natural Language Processing',
+            'Sentiment Analysis',
+            'Data Visualization',
+            'Integration APIs',
+            'Real-time Processing'
+        ],
+        category: 'AI/ML',
+        featured: true,
+        liveUrl: 'https://resonate.vertexai.studio/',
+        createdAt: new Date('2024-08-01'),
+        updatedAt: new Date('2024-12-01'),
+        technicalDetails: {
+            architecture: `
+                AI-driven feedback collection platform with advanced natural language processing.
+                Features intelligent conversation flows, real-time sentiment analysis,
+                and comprehensive analytics dashboard for actionable business insights.
+            `,
+            challenges: [
+                'Creating engaging conversational feedback experiences',
+                'Implementing accurate sentiment analysis at scale',
+                'Building comprehensive analytics and visualization',
+                'Ensuring high completion rates and user engagement'
+            ],
+            solutions: [
+                'Developed adaptive conversation flows based on user responses',
+                'Built multi-model sentiment analysis with confidence scoring',
+                'Created interactive analytics dashboard with real-time insights',
+                'Implemented gamification and engagement optimization strategies'
             ]
         }
     }

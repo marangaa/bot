@@ -22,13 +22,6 @@ export interface Project {
     technicalDetails?: TechnicalDetails;
 }
 
-export interface ProjectRelation {
-    sourceId: string;
-    targetId: string;
-    type: 'similar' | 'dependency' | 'successor';
-    description?: string;
-}
-
 export interface StructuredResponse {
     responseType: MessageType;
     content: string;
@@ -61,14 +54,7 @@ export interface Skill {
     id: string;
     name: string;
     category: 'AI/ML' | 'Web Development' | 'Data Science' | 'Cloud & Infrastructure' | 'Software Engineering';
-    proficiency: number;
+    level: number; // Changed from proficiency to level
     description: string;
     yearsOfExperience: number;
-}
-
-export interface SkillRelation {
-    skillId: string;
-    projectId: string;
-    type: 'primary' | 'secondary';
-    proficiencyDemonstrated: number;
 }

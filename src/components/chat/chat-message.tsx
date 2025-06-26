@@ -8,6 +8,18 @@ import { Message } from '@ai-sdk/react';
 import { ProjectCard } from '@/components/portfolio/project-card';
 import { SkillCard } from '@/components/portfolio/skill-card';
 import { ExperienceCard } from '@/components/portfolio/experience-card';
+import { Project, Skill, Experience } from '@/types/portfolio';
+
+interface ToolResult {
+  projects?: Project[];
+  skills?: Skill[];
+  experiences?: Experience[];
+}
+
+interface ToolInvocation {
+  toolName: string;
+  result: ToolResult;
+}
 
 interface ChatMessageProps {
   message: Message;
@@ -23,7 +35,7 @@ export function ChatMessage({
   const isUser = message.role === 'user';
 
   // Render tool results based on the tool name and result
-  const renderToolResult = (toolInvocation: any) => {
+  const renderToolResult = (toolInvocation: ToolInvocation) => {
     const { toolName, result } = toolInvocation;
 
     if (!result || typeof result !== 'object') return null;
@@ -37,7 +49,7 @@ export function ChatMessage({
                 My Projects
               </h3>
               <div className="space-y-4">
-                {result.projects.map((project: any) => (
+                {result.projects.map((project: Project) => (
                   <ProjectCard key={project.id} project={project} />
                 ))}
               </div>
@@ -54,7 +66,7 @@ export function ChatMessage({
                 My Skills & Technologies
               </h3>
               <div className="grid gap-4 md:grid-cols-2">
-                {result.skills.map((skill: any) => (
+                {result.skills.map((skill: Skill) => (
                   <SkillCard key={skill.id} skill={skill} />
                 ))}
               </div>
@@ -71,7 +83,7 @@ export function ChatMessage({
                 My Work Experience
               </h3>
               <div className="space-y-4">
-                {result.experiences.map((experience: any) => (
+                {result.experiences.map((experience: Experience) => (
                   <ExperienceCard key={experience.id} experience={experience} />
                 ))}
               </div>

@@ -45,7 +45,7 @@ function cleanupOldChats(): void {
           const chat = JSON.parse(stored);
           chats.push(chat);
         }
-      } catch (error) {
+      } catch {
         // Remove corrupted entries
         localStorage.removeItem(key);
       }
@@ -68,8 +68,8 @@ function cleanupOldChats(): void {
           localStorage.removeItem(getChatKey(chat.id));
         });
     }
-  } catch (error) {
-    console.warn('Failed to cleanup old chats:', error);
+  } catch {
+    console.warn('Failed to cleanup old chats');
   }
 }
 
@@ -111,8 +111,8 @@ export async function loadChat(id: string): Promise<Message[]> {
     }
     
     return chat.messages;
-  } catch (error) {
-    console.warn('Failed to load chat:', error);
+  } catch {
+    console.warn('Failed to load chat');
     return [];
   }
 }
@@ -136,7 +136,7 @@ export async function saveChat({
       try {
         const existing: StoredChat = JSON.parse(existingStored);
         createdAt = existing.createdAt;
-      } catch (error) {
+      } catch {
         // If parsing fails, use current time
       }
     }
@@ -149,8 +149,8 @@ export async function saveChat({
     };
     
     localStorage.setItem(getChatKey(id), JSON.stringify(chat));
-  } catch (error) {
-    console.warn('Failed to save chat:', error);
+  } catch {
+    console.warn('Failed to save chat');
   }
 }
 
@@ -169,7 +169,7 @@ export function getAllChats(): StoredChat[] {
           if (stored) {
             chats.push(JSON.parse(stored));
           }
-        } catch (error) {
+        } catch {
           // Remove corrupted entries
           localStorage.removeItem(key);
         }
@@ -177,8 +177,8 @@ export function getAllChats(): StoredChat[] {
     }
     
     return chats.sort((a, b) => b.updatedAt - a.updatedAt); // Most recent first
-  } catch (error) {
-    console.warn('Failed to get all chats:', error);
+  } catch {
+    console.warn('Failed to get all chats');
     return [];
   }
 }

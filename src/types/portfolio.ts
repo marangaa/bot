@@ -1,5 +1,3 @@
-import { MessageType } from "./chat";
-
 export interface TechnicalDetails {
     architecture: string;
     challenges: string[];
@@ -20,21 +18,6 @@ export interface Project {
     createdAt: Date;
     updatedAt?: Date;
     technicalDetails?: TechnicalDetails;
-}
-
-export interface StructuredResponse {
-    responseType: MessageType;
-    content: string;
-    data?: {
-        projectIds?: string[];
-        skillIds?: string[];
-        experienceIds?: string[];
-        highlightedTechnologies?: string[];
-    };
-    metadata?: {
-        confidence: number;
-        suggestedQuestions: string[];
-    };
 }
 
 export interface Experience {

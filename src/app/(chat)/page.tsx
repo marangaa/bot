@@ -6,13 +6,16 @@ export default function ChatPage() {
     const router = useRouter();
     
     useEffect(() => {
-        // Redirect to the new chat route which will create a new chat
         router.push('/chat');
     }, [router]);
 
     return (
         <div className="w-full h-full overflow-hidden flex items-center justify-center">
-            <div className="text-muted-foreground">Starting new chat...</div>
+            <div className="flex space-x-1">
+                <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
+            </div>
         </div>
     );
 }

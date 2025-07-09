@@ -82,7 +82,7 @@ export function SuggestedQuestions({ onQuestionSelect, className = '' }: Suggest
                     </h3>
                 </div>
                 <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                    I'm Richard, an AI engineer and consultant. Ask me anything about technology, business automation, or my work.
+                    I&apos;m Richard, an AI engineer and consultant. Ask me anything about technology, business automation, or my work.
                 </p>
             </div>
 

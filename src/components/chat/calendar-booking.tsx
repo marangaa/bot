@@ -6,6 +6,8 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { CalendarDays, Clock, User, Mail, MessageSquare } from 'lucide-react';
 
+type ConsultationType = 'technical-consultation' | 'project-discussion' | 'code-review';
+
 interface ConsultationSlot {
   start: string;
   end: string;
@@ -107,17 +109,32 @@ export function AvailabilityDisplay({
   );
 }
 
+interface BookingData {
+  clientName: string;
+  clientEmail: string;
+  type: 'technical-consultation' | 'project-discussion' | 'code-review';
+  description: string;
+  date: string;
+  time: string;
+  duration: number;
+}
+
 interface BookingFormProps {
   selectedSlot: ConsultationSlot;
-  onSubmit: (booking: any) => void;
+  onSubmit: (booking: BookingData) => void;
   onCancel: () => void;
 }
 
 export function BookingForm({ selectedSlot, onSubmit, onCancel }: BookingFormProps) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    clientName: string;
+    clientEmail: string;
+    type: ConsultationType;
+    description: string;
+  }>({
     clientName: '',
     clientEmail: '',
-    type: 'technical-consultation' as const,
+    type: 'technical-consultation',
     description: ''
   });
 
@@ -205,7 +222,7 @@ export function BookingForm({ selectedSlot, onSubmit, onCancel }: BookingFormPro
           </label>
           <select
             value={formData.type}
-            onChange={(e) => setFormData({...formData, type: e.target.value as any})}
+            onChange={(e) => setFormData({...formData, type: e.target.value as ConsultationType})}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
           >
             <option value="technical-consultation">Technical Consultation</option>

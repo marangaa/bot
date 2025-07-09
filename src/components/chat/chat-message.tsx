@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { User, Bot, Loader2, CheckCircle, Wrench, Calendar, DollarSign, Target, Lightbulb, Users, CalendarDays, Clock } from 'lucide-react';
 import { Avatar } from '@/components/ui/avatar';
@@ -9,7 +9,7 @@ import { ProjectCard } from '@/components/portfolio/project-card';
 import { SkillCard } from '@/components/portfolio/skill-card';
 import { ExperienceCard } from '@/components/portfolio/experience-card';
 import { Project, Skill, Experience } from '@/types/portfolio';
-import { AvailabilityDisplay, BookingForm, BookingConfirmation } from './calendar-booking';
+import { AvailabilityDisplay, BookingConfirmation } from './calendar-booking';
 
 interface BusinessAnalysis {
   businessDescription: string;
@@ -99,13 +99,6 @@ interface CalendarConsultation {
   start: string;
   end: string;
   attendees: string[];
-  meetingLink?: string;
-}
-
-interface BookingResult {
-  success: boolean;
-  message: string;
-  eventId?: string;
   meetingLink?: string;
 }
 
@@ -467,7 +460,7 @@ export function ChatMessage({
                 </div>
                 
                 <div>
-                  <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">What's Included</h4>
+                  <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">What&apos;s Included</h4>
                   <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-300 space-y-1">
                     {estimation.included.map((item, idx) => (
                       <li key={idx}>{item}</li>

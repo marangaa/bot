@@ -5,14 +5,6 @@ import { getPortfolioContext } from '@/lib/gemini/portfolio-context';
 import { projects, skills, experiences } from '@/lib/portfolio/data';
 import { saveChat } from '@/lib/chat-store';
 
-import { calendarService } from '@/lib/calendar/service';
-import { 
-  checkAvailabilitySchema, 
-  bookConsultationSchema, 
-  getUpcomingConsultationsSchema 
-} from '@/lib/calendar/schemas';
-
-
 const model = google('gemini-1.5-flash-latest');
 
 export async function POST(req: Request) {
@@ -77,7 +69,6 @@ export async function POST(req: Request) {
           timeline: z.enum(['rush', 'normal', 'flexible']).describe('Timeline requirements')
         }),
         execute: async ({ businessDescription, industry, challenges, budget, timeline }) => {
-          // AI-powered business analysis
           const solutions = challenges.map(challenge => ({
             challenge,
             solution: `AI-powered solution for ${challenge}`,
@@ -165,214 +156,6 @@ export async function POST(req: Request) {
           };
         },
       }),
-
-      /*
-      checkAvailability: tool({
-        description: 'Check available consultation time slots for a specific date. Call when user asks about availability for a specific date.',
-        parameters: checkAvailabilitySchema,
-        execute: async ({ date }) => {
-          try {
-            console.log('[TOOL] checkAvailability called with date:', date);
-            
-            // Basic date validation
-            const requestedDate = new Date(date + 'T00:00:00');
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            if (requestedDate < today) {
-              return {
-                error: 'Cannot check availability for past dates. Please select a future date.',
-                date,
-                success: false
-              };
-            }
-            
-            // Check weekend
-            if (requestedDate.getDay() === 0 || requestedDate.getDay() === 6) {
-              return {
-                date,
-                availability: [],
-                message: 'I don\'t work on weekends. Please choose a weekday (Monday-Friday).',
-                workingHours: '9:00 AM - 5:00 PM, Monday to Friday',
-                success: true
-              };
-            }
-            
-            const slots = await calendarService.checkAvailability(date);
-            console.log('[TOOL] checkAvailability completed successfully, found', slots.length, 'slots');
-            
-            return {
-              date,
-              availability: slots,
-              workingHours: '9:00 AM - 5:00 PM (Kenya Time)',
-              timezone: 'Africa/Nairobi',
-              dayOfWeek: requestedDate.toLocaleDateString('en-US', { weekday: 'long' }),
-              success: true
-            };
-          } catch (error) {
-            console.error('[TOOL] checkAvailability failed:', error);
-            return {
-              error: 'Calendar service is temporarily unavailable. Please try again later.',
-              date,
-              success: false,
-              fallback: 'Contact me directly at https://cal.com/rchdmaranga'
-            };
-          }
-        },
-      }),
-
-      suggestAvailableTimes: tool({
-        description: 'Suggest available consultation times when user asks about "this week", "next week", or general availability.',
-        parameters: z.object({
-          context: z.string().optional().describe('Context of the request (e.g., "this week", "next week", "general availability")')
-        }),
-        execute: async ({ context = 'upcoming' }) => {
-          try {
-            console.log('[TOOL] suggestAvailableTimes called with context:', context);
-            
-            const suggestions = [];
-            const today = new Date();
-            const maxDays = 7; // Look ahead up to 7 days
-            
-            for (let i = 0; i < maxDays; i++) {
-              const checkDate = new Date(today);
-              checkDate.setDate(today.getDate() + i);
-              
-              // Skip weekends
-              if (checkDate.getDay() === 0 || checkDate.getDay() === 6) continue;
-              
-              const dateString = checkDate.toISOString().split('T')[0];
-              
-              try {
-                const slots = await calendarService.checkAvailability(dateString);
-                const availableSlots = slots.filter(slot => slot.available);
-                
-                if (availableSlots.length > 0) {
-                  suggestions.push({
-                    date: dateString,
-                    dayName: checkDate.toLocaleDateString('en-US', { weekday: 'long' }),
-                    isToday: i === 0,
-                    availableSlots: availableSlots.slice(0, 3).map(slot => ({
-                      time: new Date(slot.start).toLocaleTimeString('en-US', { 
-                        hour: 'numeric', 
-                        minute: '2-digit',
-                        hour12: true 
-                      }),
-                      start: slot.start,
-                      end: slot.end
-                    })),
-                    totalAvailable: availableSlots.length
-                  });
-                }
-                
-                // Stop after finding 3 days with availability
-                if (suggestions.length >= 3) break;
-              } catch (error) {
-                console.error('[TOOL] suggestAvailableTimes - Error checking date:', dateString, error);
-                continue;
-              }
-            }
-            
-            console.log('[TOOL] suggestAvailableTimes completed, found', suggestions.length, 'days with availability');
-            return {
-              suggestions,
-              context,
-              currentDate: today.toISOString().split('T')[0],
-              message: suggestions.length > 0 
-                ? 'Here are my available consultation times:' 
-                : 'I\'m quite busy this week. Please contact me directly to find a suitable time.',
-              timezone: 'Africa/Nairobi (EAT)',
-              workingHours: '9:00 AM - 5:00 PM, Monday to Friday',
-              success: true
-            };
-          } catch (error) {
-            console.error('[TOOL] suggestAvailableTimes failed:', error);
-            return {
-              suggestions: [],
-              context,
-              message: 'Calendar service is temporarily unavailable. Please contact me directly.',
-              fallback: 'https://cal.com/rchdmaranga',
-              success: false
-            };
-          }
-        },
-      }),
-
-      bookConsultation: tool({
-        description: 'Book a consultation appointment. Call when user wants to actually schedule a meeting with specific details.',
-        parameters: bookConsultationSchema,
-        execute: async ({ clientName, clientEmail, date, time, type, description }) => {
-          try {
-            console.log('[TOOL] bookConsultation called for:', clientName, 'on', date, 'at', time);
-            
-            const result = await calendarService.bookConsultation({
-              clientName,
-              clientEmail,
-              date,
-              time,
-              duration: 60, // Default 1 hour
-              description: description || `${type} consultation`,
-              type
-            });
-            
-            console.log('[TOOL] bookConsultation result:', result.success ? 'SUCCESS' : 'FAILED');
-            return {
-              ...result,
-              clientName,
-              clientEmail,
-              date,
-              time,
-              type,
-              success: result.success
-            };
-          } catch (error) {
-            console.error('[TOOL] bookConsultation failed:', error);
-            return {
-              success: false,
-              message: 'Calendar service is temporarily unavailable. I\'ll contact you personally to schedule.',
-              fallback: 'I will reach out to you directly within 24 hours.',
-              clientName,
-              clientEmail,
-              date,
-              time,
-              type
-            };
-          }
-        },
-      }),
-
-      getUpcomingConsultations: tool({
-        description: 'Get list of upcoming scheduled consultations. Call when user asks about scheduled meetings or wants to see the calendar.',
-        parameters: getUpcomingConsultationsSchema,
-        execute: async ({ limit = 5 }) => {
-          try {
-            console.log('[TOOL] getUpcomingConsultations called with limit:', limit);
-            const consultations = await calendarService.getUpcomingConsultations(limit);
-            console.log('[TOOL] getUpcomingConsultations completed, found:', consultations.length, 'consultations');
-            return {
-              consultations: consultations.map((event: any) => ({
-                id: event.id,
-                summary: event.summary,
-                start: event.start?.dateTime || event.start?.date,
-                end: event.end?.dateTime || event.end?.date,
-                attendees: event.attendees?.map((a: any) => a.email) || [],
-                meetingLink: event.hangoutLink
-              })),
-              success: true
-            };
-          } catch (error) {
-            console.error('[TOOL] getUpcomingConsultations failed:', error);
-            return {
-              error: 'Calendar service is temporarily unavailable. Please contact me directly.',
-              consultations: [],
-              success: false,
-              fallback: 'https://cal.com/rchdmaranga'
-            };
-          }
-        },
-      }),
-      */
-      
       
       estimateProjectCost: tool({
         description: 'Provide project cost estimation. Call when user asks about pricing, budget, or wants to know how much something would cost.',
@@ -517,7 +300,10 @@ export async function POST(req: Request) {
             }
           };
         },
-      }),      
+      }),
+
+      //...bookingTools,
+      
     },
   });
 

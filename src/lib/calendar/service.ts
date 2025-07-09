@@ -24,8 +24,6 @@ export interface BookingResponse {
   meetingLink?: string;
 }
 
-// Calendar ID for consultations - you might want to use 'primary' for your main calendar
-// or create a dedicated calendar for consultations
 const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID || 'primary';
 
 export class CalendarService {

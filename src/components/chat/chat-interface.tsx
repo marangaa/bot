@@ -9,6 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChatInput } from './chat-input';
 import { ChatMessage } from './chat-message';
 import { CommandPalette } from './command-palette';
+import { SuggestedQuestions } from './suggested-questions';
 
 interface ChatInterfaceProps {
   id?: string;
@@ -32,6 +33,19 @@ export function ChatInterface({ id, initialMessages = [] }: ChatInterfaceProps) 
         maxSteps: 3, // Allow multi-step tool usage
         sendExtraMessageFields: true, // Send id and createdAt for each message
     });
+
+    const handleSuggestedQuestion = (question: string) => {
+        // Set the input value and trigger submit
+        handleInputChange({ target: { value: question } } as React.ChangeEvent<HTMLInputElement>);
+        
+        // Use setTimeout to ensure the state update happens first
+        setTimeout(() => {
+            const form = document.querySelector('form');
+            if (form) {
+                form.requestSubmit();
+            }
+        }, 0);
+    };
 
     // Handle keyboard shortcuts
     useEffect(() => {
@@ -79,16 +93,22 @@ export function ChatInterface({ id, initialMessages = [] }: ChatInterfaceProps) 
                 {/* Messages Area */}
                 <ScrollArea className="flex-1 p-2 sm:p-4 w-full">
                     <div className="w-full flex flex-col">
-                        <AnimatePresence mode="popLayout">
-                            {messages.map((message, index) => (
-                                <ChatMessage
-                                    key={message.id}
-                                    message={message}
-                                    isLast={index === messages.length - 1}
-                                    isStreaming={status === 'streaming' && index === messages.length - 1}
-                                />
-                            ))}
-                        </AnimatePresence>
+                        {messages.length === 0 ? (
+                            <div className="flex-1 flex items-center justify-center min-h-[60vh]">
+                                <SuggestedQuestions onQuestionSelect={handleSuggestedQuestion} />
+                            </div>
+                        ) : (
+                            <AnimatePresence mode="popLayout">
+                                {messages.map((message, index) => (
+                                    <ChatMessage
+                                        key={message.id}
+                                        message={message}
+                                        isLast={index === messages.length - 1}
+                                        isStreaming={status === 'streaming' && index === messages.length - 1}
+                                    />
+                                ))}
+                            </AnimatePresence>
+                        )}
                         
                         {error && (
                             <motion.div

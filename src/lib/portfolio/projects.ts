@@ -46,42 +46,51 @@ export const projects: Project[] = [
     },
     {
         id: '2',
-        title: 'InsuranceBot AI',
-        description: 'AI-powered chatbot for insurance customer engagement and policy explanation.',
+        title: 'Britam Insurance WhatsApp Bot',
+        description: 'Sophisticated WhatsApp chatbot providing personalized insurance advisory services for Britam Insurance customers.',
         longDescription: `
-            Intelligent conversational agent that helps insurance companies enhance customer engagement
-            through natural language policy explanations, claim processing assistance, and 24/7 support.
+            Revolutionary WhatsApp chatbot designed to bridge the gap between traditional insurance 
+            advisory services and modern digital communication. Features 24/7 availability, 
+            context-aware conversations, intelligent lead generation, and comprehensive insurance 
+            product knowledge. Leverages Google Gemini AI to deliver personalized advice for health, 
+            education, travel, and life insurance products with automatic callback scheduling.
         `,
         technologies: [
-            'OpenAI GPT-4',
-            'Google gemini',
-            'javascript',
-            'Python',
-            'FastAPI',
-            'Redis',
-            'React',
-            'PostgreSQL'
+            'Node.js',
+            'WhatsApp Web.js',
+            'Google Gemini 1.5',
+            'JavaScript',
+            'QR Code Terminal',
+            'LocalAuth',
+            'Session Management',
+            'Insurance APIs'
         ],
         liveUrl: 'https://insurance.vertexai.tech/',
         category: 'AI/ML',
         featured: true,
-        createdAt: new Date('2025-01-01'),
-        updatedAt: new Date('2025-02-01'),
+        createdAt: new Date('2024-01-01'),
+        updatedAt: new Date('2024-12-01'),
         technicalDetails: {
             architecture: `
-                Microservices architecture with real-time NLP processing, context management,
-                and integration with insurance policy databases. Implements sophisticated
-                conversation flow management and policy information retrieval systems.
+                Microservices architecture with WhatsApp Web.js client, Google Gemini AI service, 
+                session management, and insight analyzer. Implements sophisticated conversation 
+                flow management with persistent context, insurance policy database integration, 
+                and automated lead qualification with callback scheduling. Features advanced 
+                session persistence with LocalAuth and comprehensive conversation analytics.
             `,
             challenges: [
-                'Complex policy explanation simplification',
-                'Maintaining conversation context across sessions',
-                'Real-time integration with policy databases'
+                'Complex insurance product explanation simplification for customers',
+                'Maintaining conversation context across multiple sessions and topics',
+                'Real-time integration with insurance policy databases and systems',
+                'Intelligent lead scoring and qualification automation',
+                'Personalized conversation flow management for different customer types'
             ],
             solutions: [
-                'Implemented advanced prompt engineering for policy simplification',
-                'Built context management system using Redis',
-                'Created cached policy information retrieval system'
+                'Developed advanced prompt engineering system for policy simplification',
+                'Built comprehensive session management with Redis-based context storage',
+                'Created cached policy information retrieval system with real-time updates',
+                'Implemented AI-powered lead scoring with 1-10 interest level classification',
+                'Built adaptive conversation flows based on customer profile and insurance needs'
             ]
         }
     },
@@ -198,51 +207,6 @@ export const projects: Project[] = [
     },
     {
         id: '6',
-        title: 'Vector Search Test',
-        description: 'Comparative analysis of vector search versus traditional text search using a movie dataset.',
-        longDescription: `
-            A demonstration project that implements vector-based semantic search over traditional text-based
-            search methods. Using a comprehensive movie dataset, this project showcases how vector embeddings
-            can significantly improve search relevance and handle semantic queries that keyword search
-            struggles with.
-        `,
-        technologies: [
-            'MongoDB',
-            'Langchain',
-            'Vector Embeddings',
-            'Next.js',
-            'TypeScript',
-            'OpenAI Embeddings',
-            'Express.js'
-        ],
-        category: 'Data Science',
-        featured: true,
-        liveUrl: 'https://vector-search-test.vertexai.studio/',
-        createdAt: new Date('2023-08-15'),
-        updatedAt: new Date('2023-09-20'),
-        technicalDetails: {
-            architecture: `
-                Full-stack application using Next.js frontend and Express backend with MongoDB Atlas 
-                vector search capabilities. Implements a dual-pipeline architecture that processes 
-                queries through both traditional text search and vector-based semantic search for 
-                side-by-side comparison.
-            `,
-            challenges: [
-                'Optimizing vector embedding generation for large datasets',
-                'Implementing efficient nearest-neighbor search algorithms',
-                'Balancing search accuracy with performance',
-                'Creating meaningful visualization of search result comparisons'
-            ],
-            solutions: [
-                'Built batch processing system for embedding generation',
-                'Implemented MongoDB Atlas vector search with optimized indexes',
-                'Created composite scoring system combining semantic and lexical matching',
-                'Developed interactive visualization dashboard for result comparison'
-            ]
-        }
-    },
-    {
-        id: '7',
         title: 'Vector Search RAG System',
         description: 'Advanced RAG system combining vector search with semantic understanding for movie dataset exploration.',
         longDescription: `
@@ -284,7 +248,7 @@ export const projects: Project[] = [
         }
     },
     {
-        id: '8',
+        id: '7',
         title: 'RAG Function Calling Studio',
         description: 'Advanced RAG system with function calling, human-in-the-loop workflows, and AI SDK integration.',
         longDescription: `
@@ -327,65 +291,80 @@ export const projects: Project[] = [
         }
     },
     {
-        id: '9',
-        title: 'WhatsApp AI Lead Generation Agent',
-        description: 'AI-powered WhatsApp agent that captures leads 24/7, qualifies prospects, and books appointments automatically.',
+        id: '8',
+        title: 'Chatt-v3: Enterprise WhatsApp AI Platform',
+        description: 'Enterprise-grade WhatsApp automation platform that transforms WhatsApp into a powerful AI-driven customer engagement and business management tool.',
         longDescription: `
-            Deployed AI assistants that revolutionize lead generation through WhatsApp automation.
-            The system captures leads around the clock, intelligently qualifies prospects using
-            conversational AI, and seamlessly books appointments with integrated calendar systems.
+            Revolutionary WhatsApp business automation platform that combines WhatsApp Web integration, 
+            advanced AI capabilities, and comprehensive business features. Features multi-device session 
+            management, intelligent lead capture, appointment scheduling, and personalized knowledge base 
+            integration. Handles up to 10,000+ conversations monthly with enterprise-grade security and 
+            24/7 availability.
         `,
         technologies: [
-            'WhatsApp Business API',
-            'Conversational AI',
-            'Lead Qualification',
-            'Calendar Integration',
-            'CRM Integration',
-            'Webhook Management',
-            'Natural Language Processing'
+            'Next.js 15',
+            'TypeScript',
+            'Google Gemini 2.0',
+            'WhatsApp Web.js',
+            'MongoDB',
+            'Supabase',
+            'Socket.IO',
+            'Google Calendar API',
+            'Firecrawl',
+            'RAG System'
         ],
         category: 'AI/ML',
         featured: true,
         liveUrl: 'https://whatsapp.vertexai.studio/',
         createdAt: new Date('2024-09-01'),
-        updatedAt: new Date('2024-12-01'),
+        updatedAt: new Date('2025-01-01'),
         technicalDetails: {
             architecture: `
-                Comprehensive WhatsApp automation system with intelligent lead processing.
-                Integrates multiple AI models for conversation handling, lead scoring,
-                and automated appointment scheduling with CRM synchronization.
+                Microservices architecture with Next.js 15 frontend, Node.js/Express backend, 
+                and multi-database storage (MongoDB for sessions, Supabase for business data). 
+                Implements real-time WebSocket communication, AI-powered conversation processing, 
+                and enterprise-grade security with user-based session isolation. Supports up to 
+                4 concurrent WhatsApp device connections per user with automatic session persistence.
             `,
             challenges: [
-                'Managing WhatsApp API rate limits and compliance',
-                'Building intelligent conversation flows',
-                'Implementing reliable lead qualification logic',
-                'Integrating with multiple calendar and CRM systems'
+                'Multi-device WhatsApp session management with automatic recovery',
+                'Real-time AI conversation processing with sub-second response times',
+                'Enterprise-grade security with user-based session isolation',
+                'Knowledge base RAG implementation with PDF and web content processing',
+                'Intelligent lead scoring and qualification automation'
             ],
             solutions: [
-                'Developed intelligent message queuing and rate limiting system',
-                'Created sophisticated conversation state management',
-                'Built AI-powered lead scoring and qualification engine',
-                'Implemented universal API integration layer for CRM/calendar systems'
+                'Built custom WhatsApp session manager with MongoDB persistence and QR code rotation',
+                'Implemented Google Gemini 2.0 integration with function calling for business operations',
+                'Created comprehensive user authentication system with Supabase and encrypted storage',
+                'Developed RAG system using Firecrawl for web content extraction and PDF processing',
+                'Built AI-powered lead detection with 1-10 scoring system and automated appointment booking'
             ]
         }
     },
     {
-        id: '10',
-        title: 'Resonate Conversational Feedback Platform',
-        description: 'Transform feedback collection with conversational AI that captures richer insights and boosts completion rates.',
+        id: '9',
+        title: 'Resonate: AI-Powered Conversational Survey Platform',
+        description: 'Revolutionary feedback platform that transforms boring surveys into engaging conversations with 3-5x higher completion rates.',
         longDescription: `
-            Revolutionary feedback platform that goes beyond static forms and surveys. Resonate uses
-            conversational AI to capture richer, more meaningful feedback while dramatically improving
-            completion rates and delivering actionable insights that drive business growth.
+            Next-generation survey and feedback platform that fundamentally reimagines how businesses 
+            collect insights. Instead of static forms, Resonate creates intelligent conversations that 
+            adapt in real-time based on each respondent's unique answers. Features conversational AI, 
+            dynamic question generation, sentiment analysis, and anonymous-first design. Achieves 
+            65-85% completion rates compared to traditional 15-25% industry standard.
         `,
         technologies: [
-            'Conversational AI',
-            'Feedback Analytics',
-            'Natural Language Processing',
-            'Sentiment Analysis',
-            'Data Visualization',
-            'Integration APIs',
-            'Real-time Processing'
+            'Next.js 15',
+            'React 19',
+            'TypeScript',
+            'Azure OpenAI',
+            'Google AI SDK',
+            'MongoDB',
+            'Prisma ORM',
+            'NextAuth.js',
+            'Tailwind CSS',
+            'Resend',
+            'Real-time Streaming'
         ],
         category: 'AI/ML',
         featured: true,
@@ -394,21 +373,26 @@ export const projects: Project[] = [
         updatedAt: new Date('2024-12-01'),
         technicalDetails: {
             architecture: `
-                AI-driven feedback collection platform with advanced natural language processing.
-                Features intelligent conversation flows, real-time sentiment analysis,
-                and comprehensive analytics dashboard for actionable business insights.
+                Modern full-stack application with Next.js 15, React 19, and TypeScript. 
+                Implements sophisticated AI pipeline with Azure OpenAI and Google AI SDK for 
+                conversational intelligence. Features MongoDB with Prisma ORM for flexible 
+                data modeling, NextAuth.js for multi-provider authentication, and real-time 
+                streaming for instant response generation. Includes comprehensive analytics 
+                dashboard with sentiment analysis and automated theme detection.
             `,
             challenges: [
-                'Creating engaging conversational feedback experiences',
-                'Implementing accurate sentiment analysis at scale',
-                'Building comprehensive analytics and visualization',
-                'Ensuring high completion rates and user engagement'
+                'Creating engaging conversational survey experiences that feel natural',
+                'Implementing accurate sentiment analysis at scale with real-time processing',
+                'Building comprehensive analytics and visualization for actionable insights',
+                'Ensuring high completion rates while maintaining data quality and privacy',
+                'Developing adaptive question flows that respond to user context and industry'
             ],
             solutions: [
-                'Developed adaptive conversation flows based on user responses',
-                'Built multi-model sentiment analysis with confidence scoring',
-                'Created interactive analytics dashboard with real-time insights',
-                'Implemented gamification and engagement optimization strategies'
+                'Built adaptive conversation flows using Azure OpenAI with custom prompt engineering',
+                'Implemented multi-model sentiment analysis with confidence scoring and validation',
+                'Created interactive analytics dashboard with real-time insights and trend detection',
+                'Developed gamification and engagement optimization strategies with A/B testing',
+                'Built industry-specific AI models with specialized terminology and communication styles'
             ]
         }
     }

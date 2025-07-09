@@ -110,9 +110,9 @@ export const projects: Project[] = [
             'google gemini'
         ],
         category: 'Productivity',
-        featured: true,
+        featured: false,
         githubUrl: 'https://owlette.vertexai.studio/',
-        createdAt: new Date('2023-06-01'),
+        createdAt: new Date('2024-12-01'),
         technicalDetails: {
             architecture: 'Browser extension with cloud syncing and analytics capabilities',
             challenges: [
@@ -145,7 +145,7 @@ export const projects: Project[] = [
         liveUrl: 'https://agentflow.vertexai.studio/',
         category: 'Enterprise',
         featured: true,
-        createdAt: new Date('2023-02-01'),
+        createdAt: new Date('2025-02-01'),
         technicalDetails: {
             architecture: 'Real-time visualization system with agent workflow management',
             challenges: [
@@ -180,10 +180,10 @@ export const projects: Project[] = [
             'Expo'
         ],
         category: 'Productivity',
-        featured: true,
-        liveUrl: 'https://tasky.vertexai.studio/',
+        featured: false,
+        liveUrl: 'https://taskyy.vertexai.studio/',
         createdAt: new Date('2023-09-05'),
-        updatedAt: new Date('2024-03-10'),
+        updatedAt: new Date('2024-12-10'),
         technicalDetails: {
             architecture: `
                 Cross-platform mobile application built with React Native and powered by Google Gemini
@@ -225,8 +225,8 @@ export const projects: Project[] = [
         category: 'AI/ML',
         featured: true,
         liveUrl: 'https://vector-search-test.vercel.app/',
-        createdAt: new Date('2024-11-01'),
-        updatedAt: new Date('2024-12-01'),
+        createdAt: new Date('2025-01-01'),
+        updatedAt: new Date('2025-04-15'),
         technicalDetails: {
             architecture: `
                 Implements a modern RAG architecture with vector embeddings for semantic search.
@@ -269,7 +269,7 @@ export const projects: Project[] = [
         featured: true,
         liveUrl: 'https://rfp.vertexai.studio/chat/',
         createdAt: new Date('2024-10-01'),
-        updatedAt: new Date('2024-12-01'),
+        updatedAt: new Date('2025-02-01'),
         technicalDetails: {
             architecture: `
                 Advanced RAG system with intelligent function calling and human oversight.
@@ -317,7 +317,7 @@ export const projects: Project[] = [
         featured: true,
         liveUrl: 'https://whatsapp.vertexai.studio/',
         createdAt: new Date('2024-09-01'),
-        updatedAt: new Date('2025-01-01'),
+        updatedAt: new Date('2025-06-10'),
         technicalDetails: {
             architecture: `
                 Microservices architecture with Next.js 15 frontend, Node.js/Express backend, 
@@ -370,7 +370,7 @@ export const projects: Project[] = [
         featured: true,
         liveUrl: 'https://resonate.vertexai.studio/',
         createdAt: new Date('2024-08-01'),
-        updatedAt: new Date('2024-12-01'),
+        updatedAt: new Date('2025-07-05'),
         technicalDetails: {
             architecture: `
                 Modern full-stack application with Next.js 15, React 19, and TypeScript. 

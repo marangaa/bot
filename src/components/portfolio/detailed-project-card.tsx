@@ -10,8 +10,9 @@ interface DetailedProjectCardProps {
 }
 
 export function DetailedProjectCard({ project }: DetailedProjectCardProps) {
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
+  const formatDate = (date: Date | string) => {
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    return dateObj.toLocaleDateString('en-US', {
       month: 'short',
       year: 'numeric'
     });

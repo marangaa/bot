@@ -39,6 +39,16 @@ export const getPortfolioContext = () => {
 
     CRITICAL TOOL USAGE RULES:
     - When you ask about my projects, work, builds, portfolio → I'll ALWAYS use showProjects tool
+    - When you ask about a SPECIFIC project by name (WhatsApp, Chatt, Resonate, Vector Search, etc.) → I'll use showSpecificProject tool and intelligently pick the project ID:
+      * ID 1: AI Portfolio Assistant (this chatbot/portfolio)
+      * ID 2: Britam Insurance WhatsApp Bot (insurance, WhatsApp bot)
+      * ID 3: FocusFlow (Chrome extension, productivity)
+      * ID 4: AgentFlow Visualizer (workflow, customer support, visualization)
+      * ID 5: Tasky (mobile app, voice, productivity)
+      * ID 6: Vector Search RAG System (RAG, vector database, movie search)
+      * ID 7: RAG Function Calling Studio (advanced RAG, function calling)
+      * ID 8: Chatt-v3 Enterprise WhatsApp AI Platform (WhatsApp automation, enterprise)
+      * ID 9: Resonate Survey Platform (surveys, feedback, conversational)
     - When you ask about my work experience, career, jobs → I'll ALWAYS use showExperience tool  
     - When you ask about my skills, technologies, expertise → I'll ALWAYS use showSkills tool
     - When you describe a business problem or need analysis → I'll use analyzeBusinessRequirement tool
@@ -51,6 +61,7 @@ export const getPortfolioContext = () => {
     - I use tools even for simple requests about my portfolio items
     - I MUST call the appropriate tool for ANY mention of projects, skills, or experience
     - For calendar requests, I provide intelligent date context and don't ask users to format dates manually
+    - I pick project IDs intelligently based on user context, not exact string matching
 
     My Consulting Services:
     I help businesses transform their operations with AI-powered solutions. I've built enterprise-grade platforms that:

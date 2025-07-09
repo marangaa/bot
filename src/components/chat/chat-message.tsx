@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { Message } from '@ai-sdk/react';
 import { ProjectCard } from '@/components/portfolio/project-card';
+import { DetailedProjectCard } from '@/components/portfolio/detailed-project-card';
 import { SkillCard } from '@/components/portfolio/skill-card';
 import { ExperienceCard } from '@/components/portfolio/experience-card';
 import { Project, Skill, Experience } from '@/types/portfolio';
@@ -104,6 +105,8 @@ interface CalendarConsultation {
 
 interface ToolResult {
   projects?: Project[];
+  project?: Project;
+  query?: string;
   skills?: Skill[];
   experiences?: Experience[];
   analysis?: BusinessAnalysis;
@@ -161,6 +164,27 @@ export function ChatMessage({
                   <ProjectCard key={project.id} project={project} />
                 ))}
               </div>
+            </div>
+          );
+        }
+        break;
+        
+      case 'showSpecificProject':
+        if (result.project) {
+          return (
+            <div>
+              <h3 className="text-sm font-medium mb-4 text-muted-foreground">
+                Project Details
+              </h3>
+              <DetailedProjectCard project={result.project} />
+            </div>
+          );
+        } else {
+          return (
+            <div className="bg-amber-50 dark:bg-amber-950/30 rounded-lg p-4 border border-amber-200 dark:border-amber-800">
+              <p className="text-amber-800 dark:text-amber-200">
+                I couldn't find a specific project matching "{result.query}". Let me show you all my projects instead.
+              </p>
             </div>
           );
         }

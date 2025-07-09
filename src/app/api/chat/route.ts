@@ -8,7 +8,6 @@ import {
   ProjectKnowledgeBase, 
   PROJECT_TEMPLATES, 
   TECH_STACK_PATTERNS,
-  type ProjectTemplate,
   type TechStackPattern 
 } from '@/lib/gemini/project-knowledge';
 
@@ -188,13 +187,6 @@ export async function POST(req: Request) {
           const finalComplexity = complexity || calculatedComplexity;
           
           // Dynamic phase planning based on template and complexity
-          const complexityMultipliers = {
-            'mvp': 0.5,
-            'standard': 1.0,
-            'advanced': 1.5,
-            'enterprise': 2.0
-          };
-
           const teamMultipliers = {
             'solo': 1.5,
             'small-team': 1.0,
@@ -307,12 +299,6 @@ export async function POST(req: Request) {
           
           // Use knowledge base for intelligent cost calculation
           const baseCost = projectTemplate?.costRange[scope] || 10000;
-          
-          // Feature complexity analysis using knowledge base
-          const calculatedComplexity = ProjectKnowledgeBase.calculateComplexity(
-            features, 
-            'medium-scale'
-          );
           
           const featureCostMultipliers: Record<string, number> = {
             'ai': 1.5, 'machine-learning': 1.5, 'automation': 1.3,

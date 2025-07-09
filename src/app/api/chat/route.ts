@@ -4,12 +4,14 @@ import { z } from 'zod';
 import { getPortfolioContext } from '@/lib/gemini/portfolio-context';
 import { projects, skills, experiences } from '@/lib/portfolio/data';
 import { saveChat } from '@/lib/chat-store';
+
 import { calendarService } from '@/lib/calendar/service';
 import { 
   checkAvailabilitySchema, 
   bookConsultationSchema, 
   getUpcomingConsultationsSchema 
 } from '@/lib/calendar/schemas';
+
 
 const model = google('gemini-1.5-flash-latest');
 
@@ -163,58 +165,182 @@ export async function POST(req: Request) {
           };
         },
       }),
+
       /*
       checkAvailability: tool({
-        description: 'Check available consultation time slots for a specific date. Call when user wants to see what times are available for booking.',
+        description: 'Check available consultation time slots for a specific date. Call when user asks about availability for a specific date.',
         parameters: checkAvailabilitySchema,
         execute: async ({ date }) => {
           try {
             console.log('[TOOL] checkAvailability called with date:', date);
+            
+            // Basic date validation
+            const requestedDate = new Date(date + 'T00:00:00');
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (requestedDate < today) {
+              return {
+                error: 'Cannot check availability for past dates. Please select a future date.',
+                date,
+                success: false
+              };
+            }
+            
+            // Check weekend
+            if (requestedDate.getDay() === 0 || requestedDate.getDay() === 6) {
+              return {
+                date,
+                availability: [],
+                message: 'I don\'t work on weekends. Please choose a weekday (Monday-Friday).',
+                workingHours: '9:00 AM - 5:00 PM, Monday to Friday',
+                success: true
+              };
+            }
+            
             const slots = await calendarService.checkAvailability(date);
-            console.log('[TOOL] checkAvailability completed successfully');
+            console.log('[TOOL] checkAvailability completed successfully, found', slots.length, 'slots');
+            
             return {
               date,
               availability: slots,
               workingHours: '9:00 AM - 5:00 PM (Kenya Time)',
-              timezone: 'Africa/Nairobi'
+              timezone: 'Africa/Nairobi',
+              dayOfWeek: requestedDate.toLocaleDateString('en-US', { weekday: 'long' }),
+              success: true
             };
           } catch (error) {
             console.error('[TOOL] checkAvailability failed:', error);
             return {
-              error: 'Calendar service is temporarily unavailable. Please try again later or contact me directly.',
+              error: 'Calendar service is temporarily unavailable. Please try again later.',
               date,
-              directContact: 'https://cal.com/rchdmaranga'
+              success: false,
+              fallback: 'Contact me directly at https://cal.com/rchdmaranga'
             };
           }
         },
       }),
-      bookConsultation: tool({
-        description: 'Book a consultation appointment with real calendar integration. Call when user wants to actually schedule a meeting.',
-        parameters: bookConsultationSchema,
-        execute: async ({ clientName, clientEmail, date, time, duration, description, type }) => {
+
+      suggestAvailableTimes: tool({
+        description: 'Suggest available consultation times when user asks about "this week", "next week", or general availability.',
+        parameters: z.object({
+          context: z.string().optional().describe('Context of the request (e.g., "this week", "next week", "general availability")')
+        }),
+        execute: async ({ context = 'upcoming' }) => {
           try {
-            console.log('[TOOL] bookConsultation called for:', clientName, date, time);
+            console.log('[TOOL] suggestAvailableTimes called with context:', context);
+            
+            const suggestions = [];
+            const today = new Date();
+            const maxDays = 7; // Look ahead up to 7 days
+            
+            for (let i = 0; i < maxDays; i++) {
+              const checkDate = new Date(today);
+              checkDate.setDate(today.getDate() + i);
+              
+              // Skip weekends
+              if (checkDate.getDay() === 0 || checkDate.getDay() === 6) continue;
+              
+              const dateString = checkDate.toISOString().split('T')[0];
+              
+              try {
+                const slots = await calendarService.checkAvailability(dateString);
+                const availableSlots = slots.filter(slot => slot.available);
+                
+                if (availableSlots.length > 0) {
+                  suggestions.push({
+                    date: dateString,
+                    dayName: checkDate.toLocaleDateString('en-US', { weekday: 'long' }),
+                    isToday: i === 0,
+                    availableSlots: availableSlots.slice(0, 3).map(slot => ({
+                      time: new Date(slot.start).toLocaleTimeString('en-US', { 
+                        hour: 'numeric', 
+                        minute: '2-digit',
+                        hour12: true 
+                      }),
+                      start: slot.start,
+                      end: slot.end
+                    })),
+                    totalAvailable: availableSlots.length
+                  });
+                }
+                
+                // Stop after finding 3 days with availability
+                if (suggestions.length >= 3) break;
+              } catch (error) {
+                console.error('[TOOL] suggestAvailableTimes - Error checking date:', dateString, error);
+                continue;
+              }
+            }
+            
+            console.log('[TOOL] suggestAvailableTimes completed, found', suggestions.length, 'days with availability');
+            return {
+              suggestions,
+              context,
+              currentDate: today.toISOString().split('T')[0],
+              message: suggestions.length > 0 
+                ? 'Here are my available consultation times:' 
+                : 'I\'m quite busy this week. Please contact me directly to find a suitable time.',
+              timezone: 'Africa/Nairobi (EAT)',
+              workingHours: '9:00 AM - 5:00 PM, Monday to Friday',
+              success: true
+            };
+          } catch (error) {
+            console.error('[TOOL] suggestAvailableTimes failed:', error);
+            return {
+              suggestions: [],
+              context,
+              message: 'Calendar service is temporarily unavailable. Please contact me directly.',
+              fallback: 'https://cal.com/rchdmaranga',
+              success: false
+            };
+          }
+        },
+      }),
+
+      bookConsultation: tool({
+        description: 'Book a consultation appointment. Call when user wants to actually schedule a meeting with specific details.',
+        parameters: bookConsultationSchema,
+        execute: async ({ clientName, clientEmail, date, time, type, description }) => {
+          try {
+            console.log('[TOOL] bookConsultation called for:', clientName, 'on', date, 'at', time);
+            
             const result = await calendarService.bookConsultation({
               clientName,
               clientEmail,
               date,
               time,
-              duration,
-              description,
+              duration: 60, // Default 1 hour
+              description: description || `${type} consultation`,
               type
             });
-            console.log('[TOOL] bookConsultation completed:', result.success ? 'SUCCESS' : 'FAILED');
-            return result;
+            
+            console.log('[TOOL] bookConsultation result:', result.success ? 'SUCCESS' : 'FAILED');
+            return {
+              ...result,
+              clientName,
+              clientEmail,
+              date,
+              time,
+              type,
+              success: result.success
+            };
           } catch (error) {
             console.error('[TOOL] bookConsultation failed:', error);
             return {
               success: false,
-              message: 'Calendar service is temporarily unavailable. Please contact me directly to schedule.',
-              directContact: 'https://cal.com/rchdmaranga'
+              message: 'Calendar service is temporarily unavailable. I\'ll contact you personally to schedule.',
+              fallback: 'I will reach out to you directly within 24 hours.',
+              clientName,
+              clientEmail,
+              date,
+              time,
+              type
             };
           }
         },
       }),
+
       getUpcomingConsultations: tool({
         description: 'Get list of upcoming scheduled consultations. Call when user asks about scheduled meetings or wants to see the calendar.',
         parameters: getUpcomingConsultationsSchema,
@@ -231,180 +357,23 @@ export async function POST(req: Request) {
                 end: event.end?.dateTime || event.end?.date,
                 attendees: event.attendees?.map((a: any) => a.email) || [],
                 meetingLink: event.hangoutLink
-              }))
+              })),
+              success: true
             };
           } catch (error) {
             console.error('[TOOL] getUpcomingConsultations failed:', error);
             return {
               error: 'Calendar service is temporarily unavailable. Please contact me directly.',
               consultations: [],
-              directContact: 'https://cal.com/rchdmaranga'
-            };
-          }
-        },
-      }),
-      suggestAvailableTimes: tool({
-        description: 'Suggest available consultation times for the next few days. Call when user wants to schedule but needs to see available options.',
-        parameters: z.object({
-          daysAhead: z.number().optional().describe('Number of days to look ahead (default: 7)')
-        }),
-        execute: async ({ daysAhead = 7 }) => {
-          try {
-            console.log('[TOOL] suggestAvailableTimes called with daysAhead:', daysAhead);
-            const suggestions = [];
-            const today = new Date();
-            
-            for (let i = 1; i <= daysAhead; i++) {
-              const checkDate = new Date(today);
-              checkDate.setDate(today.getDate() + i);
-              
-              // Skip weekends
-              if (checkDate.getDay() === 0 || checkDate.getDay() === 6) continue;
-              
-              try {
-                const slots = await calendarService.checkAvailability(checkDate.toISOString().split('T')[0]);
-                const availableSlots = slots.filter(slot => slot.available);
-                
-                if (availableSlots.length > 0) {
-                  suggestions.push({
-                    date: checkDate.toISOString().split('T')[0],
-                    dayName: checkDate.toLocaleDateString('en-US', { weekday: 'long' }),
-                    availableSlots: availableSlots.slice(0, 3).map(slot => ({
-                      time: new Date(slot.start).toLocaleTimeString('en-US', { 
-                        hour: 'numeric', 
-                        minute: '2-digit',
-                        hour12: true 
-                      }),
-                      slot24h: new Date(slot.start).toTimeString().split(' ')[0].slice(0, 5)
-                    }))
-                  });
-                }
-              } catch (error) {
-                console.error('[TOOL] suggestAvailableTimes - Error checking date:', checkDate.toISOString().split('T')[0], error);
-                // Skip this day if there's an error
-                continue;
-              }
-              
-              // Limit to 3 days with availability
-              if (suggestions.length >= 3) break;
-            }
-            
-            console.log('[TOOL] suggestAvailableTimes completed, found', suggestions.length, 'days with availability');
-            return {
-              suggestions,
-              message: suggestions.length > 0 
-                ? 'Here are some available consultation times:' 
-                : 'I\'m quite busy this week. Let me check for more availability or contact me directly.',
-              timezone: 'Africa/Nairobi (EAT)'
-            };
-          } catch (error) {
-            console.error('[TOOL] suggestAvailableTimes failed:', error);
-            return {
-              suggestions: [],
-              message: 'Calendar service is temporarily unavailable. Please contact me directly to schedule.',
-              directContact: 'https://cal.com/rchdmaranga'
-            };
-          }
-        },
-      }),
-      scheduleConsultation: tool({
-        description: 'Schedule a technical consultation call with real calendar integration. Call when user wants to discuss a project, needs detailed advice, or wants to work together.',
-        parameters: z.object({
-          name: z.string().describe('Contact name'),
-          email: z.string().email().describe('Email address'),
-          projectType: z.string().describe('Type of project or consultation needed'),
-          urgency: z.enum(['urgent', 'normal', 'flexible']).describe('How urgent is this consultation'),
-          preferredTime: z.enum(['morning', 'afternoon', 'evening']).describe('Preferred time of day'),
-          date: z.string().optional().describe('Specific date for consultation (YYYY-MM-DD format)'),
-          time: z.string().optional().describe('Specific time for consultation (HH:MM format)')
-        }),
-        execute: async ({ name, email, projectType, urgency, preferredTime, date, time }) => {
-          try {
-            console.log('[TOOL] scheduleConsultation called for:', name, email, projectType);
-            // If specific date and time provided, book directly
-            if (date && time) {
-              console.log('[TOOL] scheduleConsultation - attempting direct booking for:', date, time);
-              const result = await calendarService.bookConsultation({
-                clientName: name,
-                clientEmail: email,
-                date,
-                time,
-                duration: 60,
-                description: `${projectType} consultation - ${urgency} priority`,
-                type: 'technical-consultation'
-              });
-              
-              console.log('[TOOL] scheduleConsultation - booking result:', result.success ? 'SUCCESS' : 'FAILED');
-              return {
-                consultation: {
-                  name,
-                  email,
-                  projectType,
-                  urgency,
-                  preferredTime,
-                  status: result.success ? 'booked' : 'pending',
-                  bookingResult: result,
-                  confirmationMessage: result.success 
-                    ? `Perfect! Your consultation is confirmed for ${date} at ${time}. ${result.message}`
-                    : `I'll reach out to schedule your ${projectType} consultation based on your ${preferredTime} preference.`,
-                  nextSteps: result.success ? [
-                    'Check your email for the calendar invite with Google Meet link',
-                    'Prepare specific questions about your project',
-                    'Gather any existing documentation or requirements',
-                    'Join the meeting using the Google Meet link in your calendar'
-                  ] : [
-                    'I will contact you within 24 hours to schedule',
-                    'Prepare specific questions about your project',
-                    'Gather any existing documentation or requirements',
-                    'Think about your timeline and budget constraints'
-                  ]
-                }
-              };
-            } else {
-              // Fallback to manual scheduling
-              console.log('[TOOL] scheduleConsultation - using manual scheduling fallback');
-              return {
-                consultation: {
-                  name,
-                  email,
-                  projectType,
-                  urgency,
-                  preferredTime,
-                  status: 'pending',
-                  calendarLink: 'https://cal.com/rchdmaranga',
-                  confirmationMessage: `Thank you ${name}! I'll send you a calendar invite to ${email} within 24 hours. We'll discuss your ${projectType} project and how I can help bring your vision to life.`,
-                  nextSteps: [
-                    'Check your email for calendar invite',
-                    'Prepare specific questions about your project',
-                    'Gather any existing documentation or requirements',
-                    'Think about your timeline and budget constraints'
-                  ]
-                }
-              };
-            }
-          } catch (error) {
-            console.error('[TOOL] scheduleConsultation failed:', error);
-            return {
-              consultation: {
-                name,
-                email,
-                projectType,
-                urgency,
-                preferredTime,
-                status: 'error',
-                confirmationMessage: `Hi ${name}, I encountered an issue with the automated booking. I'll personally reach out to ${email} within 24 hours to schedule your ${projectType} consultation.`,
-                nextSteps: [
-                  'I will contact you personally within 24 hours',
-                  'Prepare specific questions about your project',
-                  'Consider your timeline and budget requirements'
-                ],
-                directContact: 'https://cal.com/rchdmaranga'
-              }
+              success: false,
+              fallback: 'https://cal.com/rchdmaranga'
             };
           }
         },
       }),
       */
+      
+      
       estimateProjectCost: tool({
         description: 'Provide project cost estimation. Call when user asks about pricing, budget, or wants to know how much something would cost.',
         parameters: z.object({

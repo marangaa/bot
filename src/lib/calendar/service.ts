@@ -24,8 +24,9 @@ export interface BookingResponse {
   meetingLink?: string;
 }
 
-// Calendar ID for consultations
-const CALENDAR_ID = 'e96135bf16087bc4eb0542395d0279a5fde939e4f4b92f662fb3906ff1de2a6d@group.calendar.google.com';
+// Calendar ID for consultations - you might want to use 'primary' for your main calendar
+// or create a dedicated calendar for consultations
+const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID || 'primary';
 
 export class CalendarService {
   private calendar: calendar_v3.Calendar | null = null;
@@ -45,6 +46,24 @@ export class CalendarService {
   }
 
   /**
+   * Test calendar connection
+   */
+  async testConnection(): Promise<boolean> {
+    try {
+      console.log('[CALENDAR] Testing calendar connection...');
+      const calendar = this.getCalendar();
+      
+      // Try to list calendars to test the connection
+      const response = await calendar.calendarList.list();
+      console.log('[CALENDAR] Connection test successful. Found', response.data.items?.length || 0, 'calendars');
+      return true;
+    } catch (error) {
+      console.error('[CALENDAR] Connection test failed:', error);
+      return false;
+    }
+  }
+
+  /**
    * Check availability for a specific date
    */
   async checkAvailability(date: string): Promise<ConsultationSlot[]> {
@@ -52,10 +71,11 @@ export class CalendarService {
       console.log('[CALENDAR] Checking availability for date:', date);
       const calendar = this.getCalendar();
       
-      const startOfDay = new Date(date);
+      // Create timezone-aware date objects
+      const startOfDay = new Date(`${date}T00:00:00.000+03:00`); // Kenya timezone
       startOfDay.setHours(WORKING_HOURS.start, 0, 0, 0);
       
-      const endOfDay = new Date(date);
+      const endOfDay = new Date(`${date}T00:00:00.000+03:00`); // Kenya timezone
       endOfDay.setHours(WORKING_HOURS.end, 0, 0, 0);
 
       // Get existing events for the day
@@ -70,12 +90,12 @@ export class CalendarService {
       const existingEvents = response.data.items || [];
       const slots: ConsultationSlot[] = [];
 
-      // Generate time slots
+      // Generate time slots with proper timezone
       for (let hour = WORKING_HOURS.start; hour < WORKING_HOURS.end; hour++) {
-        const slotStart = new Date(date);
+        const slotStart = new Date(`${date}T00:00:00.000+03:00`);
         slotStart.setHours(hour, 0, 0, 0);
         
-        const slotEnd = new Date(date);
+        const slotEnd = new Date(`${date}T00:00:00.000+03:00`);
         slotEnd.setHours(hour + 1, 0, 0, 0);
 
         // Check if slot conflicts with existing events
@@ -108,7 +128,11 @@ export class CalendarService {
       console.log('[CALENDAR] Booking consultation for:', booking.clientName, booking.date, booking.time);
       const calendar = this.getCalendar();
       
-      const startTime = new Date(`${booking.date}T${booking.time}`);
+      // Parse the time with proper timezone handling
+      const [hours, minutes] = booking.time.split(':').map(Number);
+      const startTime = new Date(`${booking.date}T00:00:00.000+03:00`);
+      startTime.setHours(hours, minutes, 0, 0);
+      
       const endTime = new Date(startTime);
       endTime.setMinutes(endTime.getMinutes() + (booking.duration || CONSULTATION_DURATION));
 

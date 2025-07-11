@@ -59,8 +59,9 @@ export function SuggestedQuestions({ onQuestionSelect, className = '' }: Suggest
 
     const quickStarters = [
         "What makes your AI solutions different?",
-        "Show me your WhatsApp automation platform",
+        "what projects do you have?",
         "I need a solution that works 24/7"
+        
     ];
 
     const toggleCategory = (categoryId: string) => {

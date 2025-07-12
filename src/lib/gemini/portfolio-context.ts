@@ -81,7 +81,7 @@ export const getPortfolioContext = () => {
     - I provide actionable business insights and technical recommendations
 
     About Me:
-    ${about.content.trim()}
+    ${about.trim()}
 
     My Contact Information:
     Email: ${contact.email}

@@ -16,7 +16,7 @@ export function middleware(request: NextRequest) {
     response.headers.set('Referrer-Policy', 'origin-when-cross-origin');
     response.headers.set(
         'Content-Security-Policy',
-        "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:;"
+        "default-src 'self' blob: data:; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; frame-src 'self' blob:; connect-src 'self' blob: data: https://va.vercel-scripts.com;"
     );
 
     return response;

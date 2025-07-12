@@ -3,34 +3,34 @@ import { Skill } from '@/types/portfolio';
 export const skills: Skill[] = [
     {
         id: '1',
-        name: 'Large Language Models',
-        category: 'AI/ML',
-        level: 90,
-        description: 'Expert in LLM fine-tuning, prompt engineering, and deployment.',
-        yearsOfExperience: 3
-    },
-    {
-        id: '2',
-        name: 'Full Stack Development',
+        name: 'Software Development',
         category: 'Web Development',
-        level: 85,
-        description: 'Building modern web applications with React, Next.js, and Node.js.',
+        level: 90,
+        description: 'TypeScript, Python, Next.js, full-stack web development, REST APIs, product ownership',
         yearsOfExperience: 5
     },
     {
-        id: '3',
-        name: 'MLOps',
+        id: '2',
+        name: 'AI/LLM Tools',
         category: 'AI/ML',
+        level: 85,
+        description: 'OpenAI API, Ollama, LangChain, Postgres Vector Store, Prompt Engineering, Data Analysis, LLM security',
+        yearsOfExperience: 3
+    },
+    {
+        id: '3',
+        name: 'Communication Skills',
+        category: 'Soft Skills',
         level: 88,
-        description: 'Designing and implementing ML pipelines and infrastructure.',
-        yearsOfExperience: 4
+        description: 'Collaborative mindset, can work across teams, happy to ship, iterate, and adapt fast',
+        yearsOfExperience: 5
     },
     {
         id: '4',
-        name: 'AI Engineering',
-        category: 'AI/ML',
+        name: 'Tools & Practices',
+        category: 'Software Engineering',
         level: 92,
-        description: 'Developing and integrating AI systems into applications with focus on practical business solutions.',
-        yearsOfExperience: 2
+        description: 'Git, REST APIs, UI Prototyping, Testing, Agile, Solo Project Ownership',
+        yearsOfExperience: 4
     }
 ];

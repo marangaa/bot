@@ -36,7 +36,7 @@ export interface Experience {
 export interface Skill {
     id: string;
     name: string;
-    category: 'AI/ML' | 'Web Development' | 'Data Science' | 'Cloud & Infrastructure' | 'Software Engineering';
+    category: 'AI/ML' | 'Web Development' | 'Data Science' | 'Cloud & Infrastructure' | 'Software Engineering' | 'Soft Skills';
     level: number; // Changed from proficiency to level
     description: string;
     yearsOfExperience: number;

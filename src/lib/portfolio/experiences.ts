@@ -3,65 +3,66 @@ import { Experience } from '@/types/portfolio';
 export const experiences: Experience[] = [
     {
         id: '1',
-        title: 'Data Engineer (AI/ML Annotation Systems)',
-        company: 'Avala ai',
-        location: 'Nairobi, KE',
-        startDate: new Date('2024-01-01').toISOString(),
-        endDate: new Date('2024-07-01').toISOString(),
-        description: 'Engineered scalable infrastructure for high-volume data annotation pipelines powering LLM training.',
+        title: 'Software Engineer',
+        company: 'Chpter',
+        location: 'Nairobi',
+        startDate: new Date('2025-04-01').toISOString(),
+        description: 'Building and maintaining fullstack features using TypeScript, Next.js, and Node.',
         achievements: [
-            'Reduced manual annotation effort by 60% via active learning-driven QA workflows',
-            'Optimized preprocessing workflows to cut dataset preparation time by 45%'
+            'Building and maintaining fullstack features using TypeScript, Next.js, and Node',
+            'Contributed to internal tooling and product optimizations',
+            'Supported quick iteration cycles with tight feedback loops'
         ],
         technologies: [
-            'PyTorch',
-            'Transformers',
-            'AWS (S3, Lambda, SageMaker)',
-            'Docker',
-            'Annotation Tools' 
+            'TypeScript',
+            'Next.js',
+            'Node.js',
+            'React',
+            'PostgreSQL'
         ],
         type: 'work'
     },
-    
     {
         id: '2',
         title: 'Software Engineer',
-        company: 'Chpter',
-        location: 'Remote',
-        startDate: new Date('2024-08-01').toISOString(),
-        description: 'Developed and maintained scalable web applications and backend systems.',
+        company: 'Freelance',
+        location: 'Nairobi, Kenya',
+        startDate: new Date('2023-01-01').toISOString(),
+        description: 'Designed and shipped custom web applications end-to-end for clients.',
         achievements: [
-            'Built high-performance web applications using modern frameworks',
-            'Collaborated with cross-functional teams to deliver product features',
-            'Implemented efficient database designs and API architectures'
+            'Designed and shipped custom web applications end-to-end for clients',
+            'Built fullstack prototypes and internal tools for early-stage ideas',
+            'Integrated AI features (e.g., GPT-4, local inference with Ollama) into client workflows'
         ],
         technologies: [
+            'TypeScript',
             'React',
             'Node.js',
-            'TypeScript',
-            'PostgreSQL',
-            'AWS',
-            'Docker'
+            'OpenAI API',
+            'Ollama',
+            'Next.js'
         ],
         type: 'work'
     },
     {
         id: '3',
-        title: 'Software Engineer',
-        company: 'freelance',
-        location: 'Remote',
-        startDate: new Date('2023-06-01').toISOString(),
-        description: 'Built and deployed ML models for production applications.',
+        title: 'Data Specialist',
+        company: 'Avala AI',
+        location: 'Nairobi, Kenya',
+        startDate: new Date('2024-02-01').toISOString(),
+        endDate: new Date('2024-09-01').toISOString(),
+        description: 'Annotated and QA\'d large-scale datasets for AI model training.',
         achievements: [
-            'Implemented real-time ML prediction system',
-            'Improved model accuracy by 25%',
-            'Created automated testing framework'
+            'Annotated and QA\'d large-scale datasets for AI model training',
+            'Reduced annotation error rate by 15% with updated QA workflows',
+            'Collaborated on refining model outputs and feedback systems'
         ],
         technologies: [
-            'TensorFlow',
             'Python',
-            'GCP',
-            'Kubernetes'
+            'Data Annotation',
+            'Quality Assurance',
+            'Machine Learning',
+            'PyTorch'
         ],
         type: 'work'
     },
@@ -69,44 +70,21 @@ export const experiences: Experience[] = [
         id: '4',
         title: 'Data Scientist',
         company: 'Everything Data',
-        location: 'Nairobi, KE',
-        startDate: new Date('2025-01-01').toISOString(),
-        description: 'Led data science initiatives focusing on predictive analytics and machine learning solutions.',
+        location: 'Nairobi, Kenya',
+        startDate: new Date('2024-01-01').toISOString(),
+        endDate: new Date('2024-12-01').toISOString(),
+        description: 'Developed machine learning models and automated pipelines.',
         achievements: [
-            'Developed predictive models achieving 85% accuracy for customer churn prediction',
-            'Implemented automated data pipeline reducing processing time by 70%',
-            'mentored 3 junior data scientists on multiple projects'
+            'Developed machine learning models (e.g., churn prediction, classification)',
+            'Built automated pipelines and analytics dashboards',
+            'Mentored junior contributors on model design and performance tuning'
         ],
         technologies: [
             'Python',
             'Scikit-learn',
-            'PostgreSQL',
             'Pandas',
-            'Jupyter',
-            'Git'
-        ],
-        type: 'work'
-    },
-    {
-        id: '5',
-        title: 'Software Engineer',
-        company: 'Freelance',
-        location: 'Remote',
-        startDate: new Date('2021-01-01').toISOString(),
-        endDate: new Date('2022-02-01').toISOString(),
-        description: 'Delivered custom software solutions for multiple clients across different industries.',
-        achievements: [
-            'Built and deployed 5+ full-stack web applications',
-            'Implemented CI/CD pipelines reducing deployment time by 40%',
-            'Maintained 95% client satisfaction rate'
-        ],
-        technologies: [
-            'React',
-            'Node.js',
-            'MongoDB',
-            'Docker',
-            'AWS',
-            'TypeScript'
+            'Machine Learning',
+            'Data Analytics'
         ],
         type: 'work'
     }

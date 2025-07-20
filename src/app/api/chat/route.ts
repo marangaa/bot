@@ -1,3 +1,4 @@
+import { calendarTools } from '@/lib/calendar/tools';
 import { streamText, tool, appendResponseMessages } from 'ai';
 import { google } from '@ai-sdk/google';
 import { z } from 'zod';
@@ -23,7 +24,7 @@ export async function POST(req: Request) {
       model,
       messages,
       system: getPortfolioContext(),
-      maxSteps: 5, // Enable multi-step tool calls
+      maxSteps: 10, // Enable multi-step tool calls
       async onFinish({ response }) {
         console.log('[API] StreamText finished', { responseMessagesCount: response.messages.length });
         if (id) {
@@ -38,6 +39,8 @@ export async function POST(req: Request) {
         }
       },
     tools: {
+      checkAvailability: calendarTools.checkAvailability,
+      //bookConsultation: calendarTools.bookConsultation,
       showProjects: tool({
         description: 'MANDATORY: Always call this tool when user mentions: projects, portfolio, work, builds, made, created, developed, coding, programming, apps, websites, software. Do NOT respond with text about projects without calling this tool first.',
         parameters: z.object({}),

@@ -16,7 +16,7 @@ export interface Project {
     category: 'AI/ML' | 'Web Development' | 'Data Science' | 'Education' | 'Productivity' | 'Enterprise';
     featured: boolean;
     createdAt: Date;
-    updatedAt?: Date;
+    updatedAt: Date;
     technicalDetails?: TechnicalDetails;
 }
 

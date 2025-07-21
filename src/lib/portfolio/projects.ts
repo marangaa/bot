@@ -112,7 +112,8 @@ export const projects: Project[] = [
         category: 'Productivity',
         featured: false,
         githubUrl: 'https://owlette.vertexai.studio/',
-        createdAt: new Date('2024-12-01'),
+    createdAt: new Date('2024-12-01'),
+    updatedAt: new Date('2024-12-01'),
         technicalDetails: {
             architecture: 'Browser extension with cloud syncing and analytics capabilities',
             challenges: [
@@ -146,6 +147,7 @@ export const projects: Project[] = [
         category: 'Enterprise',
         featured: true,
         createdAt: new Date('2025-02-01'),
+        updatedAt: new Date('2025-02-01'),
         technicalDetails: {
             architecture: 'Real-time visualization system with agent workflow management',
             challenges: [

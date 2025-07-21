@@ -30,7 +30,7 @@ export function ChatInterface({ id, initialMessages = [] }: ChatInterfaceProps) 
         api: '/api/chat',
         id, // Pass the chat ID for persistence
         initialMessages, // Load initial messages
-        maxSteps: 3, // Allow multi-step tool usage
+        maxSteps: 10, // Allow multi-step tool usage
         sendExtraMessageFields: true, // Send id and createdAt for each message
     });
 

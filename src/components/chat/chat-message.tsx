@@ -11,6 +11,7 @@ import { SkillCard } from '@/components/portfolio/skill-card';
 import { ExperienceCard } from '@/components/portfolio/experience-card';
 import { Project, Skill, Experience } from '@/types/portfolio';
 import { AvailabilityDisplay, BookingConfirmation } from './calendar-booking';
+import { MemoizedMarkdown } from '@/components/memoized-markdown';
 
 interface BusinessAnalysis {
   businessDescription: string;
@@ -691,16 +692,14 @@ export function ChatMessage({
   const renderMessageParts = () => {
     if (!message.parts || message.parts.length === 0) {
       // Fallback to content if no parts
-      return <p className="leading-7 text-current">{message.content}</p>;
+      return <MemoizedMarkdown id={message.id} content={message.content} />;
     }
 
     return message.parts.map((part, index) => {
       switch (part.type) {
         case 'text':
           return (
-            <p key={index} className="leading-7 [&:not(:first-child)]:mt-3 text-current">
-              {part.text}
-            </p>
+            <MemoizedMarkdown key={index} id={message.id + '-' + index} content={part.text} />
           );
 
         case 'tool-invocation':

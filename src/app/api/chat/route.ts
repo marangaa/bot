@@ -12,7 +12,7 @@ import {
   type TechStackPattern 
 } from '@/lib/gemini/project-knowledge';
 
-const model = google('gemini-1.5-flash-latest');
+const model = google('gemini-2.0-flash-lite');
 
 export async function POST(req: Request) {
   const { messages, id } = await req.json();
@@ -42,19 +42,11 @@ export async function POST(req: Request) {
       checkAvailability: calendarTools.checkAvailability,
       //bookConsultation: calendarTools.bookConsultation,
       showProjects: tool({
-        description: 'MANDATORY: Always call this tool when user mentions: projects, portfolio, work, builds, made, created, developed, coding, programming, apps, websites, software. Do NOT respond with text about projects without calling this tool first.',
+        description: 'MANDATORY: Always call this tool when user mentions: projects, portfolio, work, builds, made, created, developed, coding, programming, apps, websites, software. Show the most recently updated projects first. Do NOT respond with text about projects without calling this tool first.',
         parameters: z.object({}),
         execute: async () => {
-          // Sort projects to show featured/cool ones first, then by creation date (newest first)
-          const sortedProjects = [...projects].sort((a, b) => {
-            // Featured projects come first
-            if (a.featured && !b.featured) return -1;
-            if (!a.featured && b.featured) return 1;
-            
-            // If both are featured or both are not featured, sort by creation date (newest first)
-            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-          });
-          
+          // Show most recently updated projects first (no featured logic)
+          const sortedProjects = [...projects].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
           return {
             projects: sortedProjects
           };
